@@ -1,0 +1,36 @@
+{
+	"style" : "default",
+	"config" : "save_testOne.dat",
+	"width" : 960,
+	"height" : 540,
+	"cancelscroll" : true,
+	"countdown" : 5,
+	"cancelname" : "取消",
+	"okname" : "确定",
+	"views" : [
+         {
+               "align" : "center",
+               "color" : "0,0,204",
+               "size" : 40,
+				"bg" : "240,240,240", 
+			   "text" : "自动魔女大师，到达金币上限自己停止",
+               "type" : "Label"
+		},
+		{
+               "align" : "center",
+               "color" : "0,0,204",
+               "size" : 40,
+				"bg" : "240,240,240",
+			   "text" : "先到游戏主页面，然后再开始脚本",
+               "type" : "Label"
+		},
+		{
+               "align" : "center",
+               "color" : "0,0,204",
+               "size" : 40,
+				"bg" : "240,240,240", 
+			   "text" : "QQ群：718695261，有问题意见或者可帮忙测试的朋友可以进群",
+               "type" : "Label"
+		}
+	]
+}
