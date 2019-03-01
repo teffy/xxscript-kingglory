@@ -3,11 +3,17 @@
 --------------------------------
 
 require("init")
+local bb = require("badboy")
+local json = bb.getJSON()
 
-points = config.points
-rangecolors = config.rangecolors
+content = getUIContent("ui.json")   --获得文件ui.json的内容
+lua_value = json.decode(content)   --对获取到的json字符串解码
+--lua_value.width = 500     --将ui窗口宽度赋值为500
+--lua_value.height = 400    --将ui窗口宽度赋值为450
+ret,result = showUI(json.encode(lua_value))     --重新编码json字符串，窗口将按照新设定的尺寸显示
 
-ret,result = showUI("ui.json")
+--ret,result = showUI("ui.json")
+
 
 if ret == 1 then
 	sysLog("确定")
@@ -20,8 +26,11 @@ end
 --	 print(k..":"..v)
 --end
 
+points = config.points
+rangecolors = config.rangecolors
+
 --mSleep(3000)
---if true then return  end
+if true then return  end
 
 --主页面->冒险之旅
 click(points.mainRisk,sleepTime)

@@ -330,7 +330,40 @@ local configJson = [[
 JSON = require("JSON")
 local config = JSON:decode(configJson)
 
---print(config.rangecolors.challengeDetailNoHero.range[1])
-return config
+function uiAdapt(config)
+	defaultW = 1440
+	defaultH = 2560
+--	deviceW, deviceH= getScreenSize()
+	deviceW, deviceH=  1080,1920
+	scaleW = deviceW / defaultW
+	scaleH = deviceH / defaultH
+	print(scaleH)
+	for k,v in pairs(config.points) do
+		item = v
+		item.x = item.x * scaleW
+		item.y = item.y* scaleH
+	end
+	
+	for k,v in pairs(config.rangecolors) do
+		range = v.range
+		for j=1,#range do
+				if j % 2 == 1 then
+					range[j] = range[j] * scaleW
+				else
+					range[j] = range[j] * scaleH
+				end
+		end
+    end
+end
+
+uiAdapt(config)
+
+for k,v in pairs(config.points) do
+	for m,n in pairs(v) do
+		print(m..n)
+	end
+end
+
+--return config
 
 

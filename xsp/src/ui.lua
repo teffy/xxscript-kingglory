@@ -11,6 +11,36 @@
 -- ui.json中不能有 // 这种注释
 -- 需要JSON.lua 支持
 --------------------------------
+
+function uiAdapt(config)
+	defaultW = 1440
+	defaultH = 2560
+	deviceW, deviceH= getScreenSize()
+	scaleW = deviceW / defaultW
+	scaleH = deviceH / defaultH
+	
+	points = config.points
+	rangecolors = config.rangecolors
+	
+	for i=1,#points do
+		item = points[i]
+		item.x = item.x * scaleW
+		item.y = item.y* scaleH
+    end
+	
+	for i=1,#rangecolors do
+		range = rangecolors[i].range
+		for j=1,#range do
+				if j % 2 == 1 then
+					range[j] = range[j] * scaleW
+				else
+					range[j] = range[j] * scaleH
+				end
+		end
+    end
+	
+end
+
 function 适配UI(ui,width)
 	local content
 	local value

@@ -2,31 +2,15 @@
 --初始化
 --------------------------------
 
-require("define")
+require("overloadFundefine")
 require("actionDefine")
 config = require("config")
 
 init("0", 1)
-w,h=getScreenSize()--获取当前分辨率
+screenW,screenH=getScreenSize()--获取当前分辨率
 timeOut=30000 --超时时间判定为30秒
-
 sleepTime = 500
-
-oldPrint = print
-print = function(text)
-	itsType = type(text)
-	if itsType == "nil" then
-		oldPrint("nil")
-	elseif itsType == "string" then
-		oldPrint(text)
-	elseif itsType == "string" then
-		oldPrint(text)
-	end
-end
-
-sysLog("屏幕宽高,w:"..w..",h:"..h)
-
-print(config.points.pickHeroExpandAuxiliary)
+sysLog("屏幕宽高,w:"..screenW..",h:"..screenH)
 
 --todo 
 --方法封装
