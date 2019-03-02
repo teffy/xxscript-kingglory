@@ -1,41 +1,45 @@
 {
-   "style" : "default",
-   "config" : "save_xxscript-kingglory.dat",
-   "width" : 1300,
-   "height" : 970,
-   "cancelscroll" : true,
-   "countdown" : 10,
-   "cancelname" : "取消",
-   "okname" : "确定",
-   "views" : [
+   "style": "default",
+   "config": "save_xxscript-kingglory.dat",
+   "width": 1300,
+   "height": 970,
+   "cancelscroll": true,
+   "countdown": 10,
+   "cancelname": "取消",
+   "okname": "确定",
+   "views": [
       {
-         "align" : "left",
-         "color" : "0,0,204",
-         "size" : 50,
-         "bg" : "240,240,240",
-         "text" : "自动选择魔女大师，到达金币上限自己停止",
-         "type" : "Label"
+         "align": "left",
+         "color": "76,137,228",
+         "size": 40,
+         "text": "❤️天非❤️王者荣耀⚔️自动刷金⚔️️  Version 0.0.4",
+         "type": "Label"
       },
       {
-         "src" : "phone_guide.png",
-         "type" : "Image",
-         "width" : "600"
+         "align": "left",
+         "color": "76,137,228",
+         "size": 40,
+         "text": "自动选择魔女大师，到达金币上限自己停止",
+         "type": "Label"
       },
       {
-         "align" : "left",
-         "color" : "0,0,204",
-         "size" : 50,
-         "bg" : "240,240,240",
-         "text" : "先把手机方向调整为上图所示，然后到游戏主页面，再开始脚本",
-         "type" : "Label"
+         "src": "phone_guide.png",
+         "type": "Image",
+         "width": "600"
       },
       {
-         "align" : "left",
-         "color" : "0,0,204",
-         "size" : 50,
-         "bg" : "240,240,240",
-         "text" : "",
-         "type" : "Label"
+         "align": "left",
+         "color": "76,137,228",
+         "size": 40,
+         "text": "先把手机方向调整为上图所示，然后到游戏主页面，再开始脚本",
+         "type": "Label"
+      },
+      {
+         "align": "left",
+         "color": "76,137,228",
+         "size": 40,
+         "text": "",
+         "type": "Label"
       }
    ]
 }

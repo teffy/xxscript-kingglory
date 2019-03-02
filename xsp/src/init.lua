@@ -1,22 +1,30 @@
---------------------------------
---初始化
---------------------------------
+------------------------------------------------------------
+--@desc 初始化，加载各种库，和UI适配，游戏坐标数据适配
+--@author teffy
+--@github https://github.com/teffy/xxscript-kingglory
+------------------------------------------------------------
 
-require("overloadFundefine")
-require("actionDefine")
-config = require("config")
+require("tflibs.fun_overload_def")
+require("tflibs.click_action_def")
+require('tflibs.sys_fun_redef')
+calculate_coordinate = require("tflibs.coordinate_adapter")
+adapterUI = require("tflibs.ui_adapter")
+require("config")
 
+defaultW,defaultH= 1440,2560
+deviceW, deviceH = getScreenSize()
+scaleW = deviceW / defaultW
+scaleH = deviceH / defaultH
+
+coordinate_data = calculate_coordinate("coordinate.json",scaleW,scaleH)
+print('jisuan',coordinate_data)
+ui_json = adapterUI("ui.json",scaleW,scaleH)
+
+sysLog("宽高——deviceW:"..deviceW..",deviceH:"..deviceH)
+sysLog("缩放——scaleW:"..scaleW..",scaleH:"..scaleH)
+
+-- 屏幕方向，0 - 竖屏， 1 - Home键在右边， 2 - Home键在左边
 init("0", 1)
-screenW,screenH=getScreenSize()--获取当前分辨率
+
 timeOut=30000 --超时时间判定为30秒
 sleepTime = 500
-sysLog("屏幕宽高,w:"..screenW..",h:"..screenH)
-
---todo 
---方法封装
---检测当前页面
---选择关卡，选择英雄
---home左右适配，分辨率适配
---UI悬浮记录次数，获取多少金币
---UI 桌面编辑工具直接生成代码
---检测用户是否有点券，然后提示他买卡

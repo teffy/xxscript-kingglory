@@ -1,12 +1,14 @@
---------------------------------
---定义 点击事件和点击之后的方法封装
---------------------------------
+------------------------------------------------------------
+--@desc 定义点击事件和点击之后的方法封装
+--@author teffy
+--@github https://github.com/teffy/xxscript-kingglory
+------------------------------------------------------------
 
 define.click{
 	"number",
 	"number",
 	function (x,y)
-		sysLog("click,x:"..x..",y:"..y)
+		--sysLog("click,x:"..x..",y:"..y)
 		touchDown(1,x,y)
 		mSleep(math.random(50,80))
 		touchUp(1,x,y)
@@ -24,6 +26,11 @@ define.click{
 	end
 }
 
+--@desc 点击事件
+--@param x x坐标
+--@param y y坐标
+--@param sleepTime 休眠时长
+--@param clickTime 点击次数
 define.click{
 	"number",
 	"number",
@@ -54,6 +61,10 @@ define.click{
 	end
 }
 
+--@desc 点击事件
+--@param point 坐标table，包含x,y
+--@param sleepTime 休眠时长
+--@param clickTime 点击次数
 define.click{
 	"table",
 	"number",
@@ -63,22 +74,27 @@ define.click{
 	end
 }
 
+--@desc 根据坐标颜色找到点之后执行 thenFn 方法
+--@param posRange 坐标，上下左右
+--@param posColor 颜色
+--@param similarity 相似度
+--@param thenFn 找到之后要执行的方法，该方法必须有返回 true的 case，否则会陷入死循环
 define.findThen{
 	"table",
 	"string",
 	"number",
 	"function",
 	function (posRange,posColor,similarity,thenFn)
-		--sysLog(posRange[1])
-		--sysLog(posColor)
+--		keepScreen(true)
 		while true do
 			x, y = findColor(posRange, posColor,similarity, 0, 0, 0)
-			sysLog("findThen,x:"..x..",y:"..y)
+			--sysLog("findThen,x:"..x..",y:"..y)
 			if thenFn(x,y) then
 				break
 			end
 			mSleep(math.random(100,200))
 		end
+--		keepScreen(false)
 	end
 }
 
