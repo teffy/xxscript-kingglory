@@ -1,0 +1,340 @@
+{
+  "width": 3000,
+  "height": 3000,
+  "points": {
+    "main_risk": {
+      "x": 2354,
+      "y": 2537,
+      "pos": "bottom",
+      "desc": "主页面-冒险，在底部"
+    },
+    "risk_select_mode1_2": {
+      "x": 1818,
+      "y": 1993,
+      "pos": "mid",
+      "desc": "冒险之旅-第三个"
+    },
+    "risk_select_mode2_3": {
+      "x": 1498,
+      "y": 1918,
+      "pos": "mid",
+      "desc": "冒险选择-中间"
+    },
+    "fightpre_select_level_up": {
+      "x": 745,
+      "y": 952,
+      "pos": "mid",
+      "desc": "选择关卡上按钮"
+    },
+    "fightpre_select_level_down": {
+      "x": 750,
+      "y": 2198,
+      "pos": "mid",
+      "desc": "选择关卡下按钮"
+    },
+    "fightpre_select_level_1": {
+      "x": 1560,
+      "y": 1085,
+      "pos": "mid",
+      "desc": "关卡位置1"
+    },
+    "fightpre_select_level_2": {
+      "x": 1560,
+      "y": 1235,
+      "pos": "mid",
+      "desc": "关卡位置2"
+    },
+    "fightpre_select_level_3": {
+      "x": 1560,
+      "y": 1380,
+      "pos": "mid",
+      "desc": "关卡位置3"
+    },
+    "fightpre_select_level_4": {
+      "x": 1560,
+      "y": 1540,
+      "pos": "mid",
+      "desc": "关卡位置4"
+    },
+    "fightpre_level_mode_1": {
+      "x": 2300,
+      "y": 1130,
+      "pos": "mid",
+      "desc": "普通"
+    },
+    "fightpre_level_mode_2": {
+      "x": 2300,
+      "y": 1420,
+      "pos": "mid",
+      "desc": "精英"
+    },
+    "fightpre_level_mode_3": {
+      "x": 2300,
+      "y": 1710,
+      "pos": "mid",
+      "desc": "大师"
+    },
+    "fightpre_select_level_next": {
+      "x": 2340,
+      "y": 2090,
+      "pos": "mid",
+      "desc": "冒险-选关-下一步"
+    },
+    "fightpre_change_team": {
+      "x": 1755,
+      "y": 2020,
+      "pos": "mid",
+      "desc": "更换阵容按钮"
+    },
+    "fightpre_rush_through": {
+      "x": 2240,
+      "y": 2020,
+      "pos": "mid",
+      "desc": "闯关按钮"
+    },
+    "fightpre_pick_hero_pos_1": {
+      "x": 150,
+      "y": 300,
+      "pos": "top",
+      "desc": "选择英雄左上角1"
+    },
+    "fightpre_pick_hero_pos_2": {
+      "x": 430,
+      "y": 300,
+      "pos": "top",
+      "desc": "选择英雄左上角2"
+    },
+    "fightpre_pick_hero_pos_3": {
+      "x": 150,
+      "y": 620,
+      "pos": "top",
+      "desc": "选择英雄左上角3"
+    },
+    "fightpre_unpick_hero_1": {
+      "x": 2837,
+      "y": 162,
+      "pos": "top",
+      "desc": "取消英雄x按钮1"
+    },
+    "fightpre_unpick_hero_2": {
+      "x": 2837,
+      "y": 444,
+      "pos": "top",
+      "desc": "取消英雄x按钮2"
+    },
+    "fightpre_unpick_hero_3": {
+      "x": 2837,
+      "y": 724,
+      "pos": "top",
+      "desc": "取消英雄x按钮3"
+    },
+    "fightpre_pick_hero_confirm": {
+      "x": 2780,
+      "y": 2916,
+      "pos": "bottom",
+      "desc": "选择英雄页面，确定按钮"
+    },
+    "fighting_auto_fight": {
+      "x": 2775,
+      "y": 70,
+      "pos": "top",
+      "desc": "点击自动的位置"
+    },
+    "fighting_skip": {
+      "x": 2897,
+      "y": 70,
+      "pos": "top",
+      "desc": "点击跳过的位置"
+    },
+    "fight_failed_back": {
+      "x": 1498,
+      "y": 2861,
+      "pos": "bottom",
+      "desc": "失败结果，返回按钮"
+    },
+    "fight_success_fight_again": {
+      "x": 2549,
+      "y": 2867,
+      "pos": "bottom",
+      "desc": "挑战成功，再次挑战"
+    }
+  },
+  "rangecolors": {
+    "fightpre_select_level_up": {
+      "range": [
+        738,
+        945,
+        750,
+        958
+      ],
+      "color": "0|0|0x02bfff",
+      "pos": "mid",
+      "desc": "选择关卡上按钮"
+    },
+    "fightpre_select_level_down": {
+      "range": [
+        746,
+        2197,
+        760,
+        2206
+      ],
+      "color": "0|0|0x02bfff",
+      "pos": "mid",
+      "desc": "选择关卡下按钮"
+    },
+    "fightpre_change_team": {
+      "range": [
+        1602,
+        2003,
+        1618,
+        2029
+      ],
+      "color": "0|0|0x255580,0|7|0x275882",
+      "pos": "mid",
+      "desc": "更换阵容按钮"
+    },
+    "fightpre_rush_through": {
+      "range": [
+        2129,
+        2010,
+        2159,
+        2036
+      ],
+      "color": "0|0|0x785f36,1|4|0x805f36",
+      "pos": "mid",
+      "desc": "闯关按钮"
+    },
+    "fightpre_check_hero_enough": {
+      "range": [
+        2272,
+        1651,
+        2289,
+        1670
+      ],
+      "color": "0|0|0x101323",
+      "pos": "mid",
+      "desc": "冒险-选关-判断是否够3个英雄，判断第三个英雄的位置，特殊情况，英雄头像加载有延迟，但是占位区域是灰色，应该不英雄，如果有影响，需要单独处理"
+    },
+    "fightpre_pick_hero_check_hero_enough": {
+      "range": [
+        2755,
+        769,
+        2772,
+        779
+      ],
+      "color": "0|0|0x5071a3",
+      "pos": "top",
+      "desc": "冒险-选择英雄-判断是否够3个英雄，判断第三个英雄的位置的问号"
+    },
+    "fighting_is_in_fighting": {
+      "range": [
+        2913,
+        34,
+        2936,
+        46
+      ],
+      "color": "0|0|0x58acdf",
+      "pos": "top",
+      "desc": "判断是否在战斗中，判断右上角设置齿轮⚙按钮的存在"
+    },
+    "fighting_is_auto_fight": {
+      "range": [
+        2710,
+        120,
+        2729,
+        137
+      ],
+      "color": "0|0|0x1a5c9e",
+      "pos": "top",
+      "desc": "战斗中，判断是否是自动模式，采样自动按钮左下角"
+    },
+    "fighting_is_skip_showing": {
+      "range": [
+        2857,
+        2834,
+        2873,
+        2850
+      ],
+      "color": "0|0|0x02bfff",
+      "pos": "bottom",
+      "desc": "战斗中，判断是否弹出自动了，采样右下角按钮"
+    },
+    "fight_success_check_yellow_text": {
+      "range": [
+        1003,
+        1475,
+        1066,
+        1940
+      ],
+      "color": "0|0|0xf0bf2d",
+      "pos": "mid",
+      "desc": "挑战成功，判断3行里是否有黄色文字"
+    },
+    "fight_success_check_white_text": {
+      "range": [
+        1436,
+        2139,
+        1561,
+        2192
+      ],
+      "color": "0|0|0xffffff",
+      "pos": "mid",
+      "desc": "挑战成功，判断下面是否有白色文字"
+    },
+    "fight_failed_check_white_text_up": {
+      "range": [
+        965,
+        1286,
+        1192,
+        1354
+      ],
+      "color": "0|0|0xffffff",
+      "pos": "mid",
+      "desc": "挑战失败，判断上面（胜负乃兵家常事）是否有白色文字"
+    },
+    "fight_failed_check_white_text_down": {
+      "range": [
+        1438,
+        2829,
+        1563,
+        2891
+      ],
+      "color": "0|0|0xffffff",
+      "pos": "bottom",
+      "desc": "挑战失败，判断下面返回按钮上是否有白色文字"
+    },
+    "fight_success_gold_back": {
+      "range": [
+        2004,
+        2842,
+        2023,
+        2876
+      ],
+      "color": "0|0|0x24557f,1|12|0x235c87",
+      "pos": "bottom",
+      "desc": "挑战成功，奖励页面，返回按钮，检查蓝色区域"
+    },
+    "fight_success_gold_fight_again": {
+      "range": [
+        2383,
+        2848,
+        2408,
+        2882
+      ],
+      "color": "0|0|0x6f5631,0|8|0x755c33",
+      "pos": "bottom",
+      "desc": "挑战成功，奖励页面，再次挑战按钮，检查黄色区域"
+    },
+    "fight_success_gold_limit": {
+      "range": [
+        2659,
+        1588,
+        2800,
+        1622
+      ],
+      "color": "0|0|0xccdae1,0|2|0xcfdee5",
+      "desc": "挑战成功，奖励页面，金币上限，右侧白色文字",
+      "pos": "mid"
+    }
+  }
+}

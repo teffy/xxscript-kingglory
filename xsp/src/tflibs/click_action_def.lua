@@ -8,11 +8,12 @@ define.click{
 	"number",
 	"number",
 	function (x,y)
-		--sysLog("click,x:"..x..",y:"..y)
+		sysLog("click,x:"..x..",y:"..y)
 		touchDown(1,x,y)
 		mSleep(math.random(50,80))
 		touchUp(1,x,y)
 		mSleep(math.random(50,80))
+		-- mSleep(2000)
 	end
 }
 
@@ -85,6 +86,7 @@ define.findThen{
 	"number",
 	"function",
 	function (posRange,posColor,similarity,thenFn)
+		sysLog('posRange:',posRange,',posColor:',posColor)
 --		keepScreen(true)
 		while true do
 			x, y = findColor(posRange, posColor,similarity, 0, 0, 0)

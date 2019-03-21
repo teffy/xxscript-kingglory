@@ -4,7 +4,7 @@
    "width": 1300,
    "height": 970,
    "cancelscroll": true,
-   "countdown": 10,
+   "countdown": 1,
    "cancelname": "取消",
    "okname": "确定",
    "views": [
@@ -12,7 +12,7 @@
          "align": "left",
          "color": "76,137,228",
          "size": 40,
-         "text": "❤️天非❤️王者荣耀⚔️自动刷金⚔️️  Version 0.0.4",
+         "text": "❤️天非❤️⚔王者️自动刷金⚔️️  Version 0.0.5",
          "type": "Label"
       },
       {

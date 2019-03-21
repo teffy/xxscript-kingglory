@@ -1,9 +1,8 @@
-VERSION='0.0.4'
+VERSION='0.0.5'
 DEBUG=true
 IS_FREE=true
 
 --todo 
---方法封装
 --检测当前页面
 --选择关卡，选择英雄
 --home左右适配，分辨率适配
