@@ -1,45 +1,112 @@
 {
    "style": "default",
    "config": "save_xxscript-kingglory.dat",
-   "width": 1300,
-   "height": 970,
+   "width": 1800,
+   "height": 1200,
    "cancelscroll": true,
-   "countdown": 1,
-   "cancelname": "取消",
-   "okname": "确定",
+   "countdown": 11110,
+   "cancelname": "休息一下",
+   "okname": "开始脚本",
    "views": [
-      {
-         "align": "left",
-         "color": "76,137,228",
-         "size": 40,
-         "text": "❤️天非❤️⚔王者️自动刷金⚔️️  Version 0.0.5",
-         "type": "Label"
-      },
-      {
-         "align": "left",
-         "color": "76,137,228",
-         "size": 40,
-         "text": "自动选择魔女大师，到达金币上限自己停止",
-         "type": "Label"
-      },
-      {
-         "src": "phone_guide.png",
-         "type": "Image",
-         "width": "600"
-      },
-      {
-         "align": "left",
-         "color": "76,137,228",
-         "size": 40,
-         "text": "先把手机方向调整为上图所示，然后到游戏主页面，再开始脚本",
-         "type": "Label"
-      },
-      {
-         "align": "left",
-         "color": "76,137,228",
-         "size": 40,
-         "text": "",
-         "type": "Label"
-      }
+     {
+       "text": "基础设置",
+       "type": "Page",
+       "views": [
+         {
+           "width": 1700,
+           "height": 100,
+           "type": "LinearLayout",
+           "views": [
+             {
+               "align": "left",
+               "color": "76,137,228",
+               "size": 55,
+               "width": 700,
+               "text": "❤️天非❤️⚔️️王者️自动刷金⚔️️",
+               "type": "Label"
+             },
+             {
+               "id": "version",
+               "align": "left",
+               "color": "76,137,228",
+               "size": 55,
+               "width": 600,
+               "text": "Version",
+               "type": "Label"
+             }
+           ]
+         },
+         {
+           "align": "left",
+           "color": "76,137,228",
+           "size": 55,
+           "text": "无需配置，自动选择魔女大师，到达金币上限自动停止",
+           "type": "Label"
+         },
+         {
+           "width": 1700,
+           "height": 500,
+           "type": "LinearLayout",
+           "valign": "center",
+           "views": [
+             {
+               "src": "phone_guide.png",
+               "type": "Image",
+               "width": "700"
+             },
+             {
+               "color": "76,137,228",
+               "size": 60,
+               "width": "600",
+               "text": "先把手机方向调整为左图所示，然后在游戏主页面开启脚本",
+               "type": "Label"
+             }
+           ]
+         }
+       ]
+     },
+     {
+       "text": "版本更新",
+       "type": "Page",
+       "views": [
+         {
+           "color": "100,110,200",
+           "extra": [
+             {
+               "goto": "http://dev.xxzhushou.cn/scriptGuide.html?id=6468",
+               "text": "更新记录↓"
+             }
+           ],
+           "size": 60,
+           "text": "更新记录↓",
+           "type": "Label"
+         },
+         {
+           "id": "release_note",
+           "color": "76,137,228",
+           "size": 50,
+           "text": "v0.0.5\n2019-03-22\n全分辨率适配，更加稳定\n\nv0.0.4\n2019-03-08\n修复一些场景卡住的问题，适配9：16分辨率\n\nv0.0.3\n2019-02-28\n优化极速自动魔女大师刷金速度\n\nv0.0.2\n2019-02-20\n添加自动选关卡关卡，自动选英雄功能\n\nv0.0.1\n2019-02-19\n第一版完成魔女刷金\n",
+           "type": "Label"
+         }
+       ]
+     },
+     {
+       "text": "联系❤️天非❤️获取福利",
+       "type": "Page",
+       "views": [
+         {
+           "color": "100,110,200",
+           "extra": [
+             {
+               "goto": "qq",
+               "text": ""
+             }
+           ],
+           "size": 60,
+           "text": "",
+           "type": "Label"
+         }
+       ]
+     }
    ]
-}
+ }

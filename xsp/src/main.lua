@@ -183,7 +183,7 @@ while true do
 		if #successYellowText ~= 0 and #successWhiteText ~= 0 then
 			sysLog("成功结果页面")
 			--随机点击一个点跳过
-			click(math.random(deviceW*0.33,deviceW*0.66), math.random(deviceH*0.33,deviceH*0.66),2)
+			click(math.random(deviceW*0.33,deviceW*0.66), math.random(deviceH*0.33,deviceH*0.66),200,2)
 			fightSuccess = true
 			break
 		else

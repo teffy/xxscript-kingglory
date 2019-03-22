@@ -4,21 +4,17 @@
 --@github https://github.com/teffy/xxscript-kingglory
 ------------------------------------------------------------
 
+require("config")
+require('tflibs.sys_fun_redef')
 require("tflibs.fun_overload_def")
 require("tflibs.click_action_def")
-require('tflibs.sys_fun_redef')
 calculate_sampling_data = require("tflibs.sampling_adapter")
 adapterUI = require("tflibs.ui_adapter")
-require("config")
 
 deviceW, deviceH = getScreenSize()
 
 sampling_adapter_data = calculate_sampling_data(deviceW, deviceH)
--- print('jisuan',sampling_adapter_data)
-defaultW,defaultH= 1440,2560
-scaleW = deviceW / defaultW
-scaleH = deviceH / defaultH
-ui_json = adapterUI("ui.json",scaleW,scaleH)
+ui_json = adapterUI("ui.json",deviceW, deviceH)
 
 -- 屏幕方向，0 - 竖屏， 1 - Home键在右边， 2 - Home键在左边
 init("0", 1)
