@@ -10,7 +10,7 @@ define.click{
 	function (x,y)
 		sysLog("click,x:"..x..",y:"..y)
 		touchDown(1,x,y)
-		mSleep(math.random(50,80))
+		mSleep(math.random(100,180))
 		touchUp(1,x,y)
 		mSleep(math.random(50,80))
 		-- mSleep(2000)

@@ -72,7 +72,6 @@ function calculate_sampling_item(item,is_black_mode,black_gap,sampling_gap,sampl
 			--Y/(X-black_gap) = samplingY/(samplingX-sampling_gap)
 			x = ((item.x-sampling_gap)/(samplingW-2*sampling_gap)) * tempW + black_gap
 			y = (item.y/(item.x-sampling_gap)) * (x - black_gap)
-			print(item.x,'-',item.y,'==>',x,'-',y)
 		else
 			--X/tempW = samplingX/samplingW
 			--Y/X = samplingY/samplingX
@@ -85,7 +84,6 @@ function calculate_sampling_item(item,is_black_mode,black_gap,sampling_gap,sampl
 			--(tempH-Y)/(X-black_gap) = (samplingH-samplingY)/(samplingX-sampling_gap)
 			x = ((item.x-sampling_gap)/(samplingW-2*sampling_gap)) * tempW + black_gap
 			y = tempH - (samplingH-item.y)/(item.x-sampling_gap) * (x - black_gap)
-			print(item.x,'-',item.y,'==>',x,'-',y)
 		else
 			--X/tempW = samplingX/samplingW
 			--(tempH-Y)/X = (samplingH-samplingY)/samplingX
@@ -98,7 +96,6 @@ function calculate_sampling_item(item,is_black_mode,black_gap,sampling_gap,sampl
 			--(tempH/2-Y)/(X-black_gap) = (samplingH/2-samplingY)/(samplingX-sampling_gap)
 			x = ((item.x-sampling_gap)/(samplingW-2*sampling_gap)) * tempW + black_gap
 			y = tempH/2 - ((samplingH/2-item.y)/(item.x-sampling_gap)) * (x - black_gap)
-			print(item.x,'-',item.y,'==>',x,'-',y)
 		else
 			--X/tempW = samplingX/samplingW
 			--(tempH/2-Y)/X = (samplingH/2-samplingY)/samplingX
@@ -108,6 +105,7 @@ function calculate_sampling_item(item,is_black_mode,black_gap,sampling_gap,sampl
 	else
 		print('unknown pos:',item)
 	end
+	-- print(item.x,'-',item.y,'==>',x,'-',y)
 	item.x = x
 	item.y = y
 end

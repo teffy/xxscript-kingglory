@@ -29,26 +29,8 @@ end
 points = sampling_adapter_data.points
 rangecolors = sampling_adapter_data.rangecolors
 
-mSleep(2000)
-
-while true do
-	--前3个是挑战成功的条目（任意完成一个），黄色的字，第4个是下面的白色字，前3个或和第四个与
-	fightpreChangeTeam =
-		findColors(rangecolors.fightpre_change_team.range, rangecolors.fightpre_change_team.color, 90, 0, 0, 0)
-	fightpreRushThrough =
-		findColors(rangecolors.fightpre_rush_through.range, rangecolors.fightpre_rush_through.color, 90, 0, 0, 0)
-	if #fightpreChangeTeam ~= 0 and #fightpreRushThrough ~= 0 then
-		sysLog("战斗准备页面")
-		-- TODO 需要等一下，第一次英雄列表加载是异步的,可能会导致进去检测到英雄没选全
-		mSleep(math.random(100,200))
-		break
-	else
-		sysLog("不在战斗准备页面，sleep")
-		mSleep(math.random(100,200))
-	end
-end
-
-if true then return end
+-- mSleep(2000)
+-- if true then return end
 
 --主页面->冒险之旅
 click(points.main_risk, sleepTime)
@@ -189,9 +171,11 @@ while true do
 
 	mSleep(2000)
 	--检查结束页面
+	--成功，随便点击一个点，然后开始检查是否有白字（金币上限），然后点击再次挑战，从头循环
+	--失败，点击页面上的返回到挑战选关卡页面了，点击下一步
 	local fightSuccess = true
 	while true do
-		--前3个是挑战成功的条目（任意完成一个），黄色的字，第4个是下面的白色字，前3个或和第四个与
+		--前1个是挑战成功的条目（任意完成一个），黄色的字，第2个是下面的白色字，前1个或和第2个与
 		successYellowText =
 			findColors(rangecolors.fight_success_check_yellow_text.range, rangecolors.fight_success_check_yellow_text.color, 95, 0, 0, 0)
 		successWhiteText =
@@ -199,7 +183,7 @@ while true do
 		if #successYellowText ~= 0 and #successWhiteText ~= 0 then
 			sysLog("成功结果页面")
 			--随机点击一个点跳过
-			click(deviceW/2, deviceH/2)
+			click(math.random(deviceW*0.33,deviceW*0.66), math.random(deviceH*0.33,deviceH*0.66),2)
 			fightSuccess = true
 			break
 		else
@@ -218,8 +202,6 @@ while true do
 
 	mSleep(2000)
 	sysLog("fightSuccess:",fightSuccess)
-	--成功，随便点击一个点，然后开始检查是否有白字（金币上限），然后点击再次挑战，从头循环
-	--失败，点击页面上的返回到挑战选关卡页面了，点击下一步
 	if fightSuccess then
 		--先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
 		while true do
