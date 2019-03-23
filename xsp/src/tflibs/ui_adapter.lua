@@ -34,7 +34,6 @@ function resize(view,scaleW,scaleH)
     if view.size ~= nil then
         view.size = view.size * scaleW
     end
-    print(VERSION)
     if view.id ~= nil and view.id == "version" then
         view.text = "Version " .. VERSION
     end

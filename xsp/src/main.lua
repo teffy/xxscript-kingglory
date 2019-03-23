@@ -29,7 +29,24 @@ end
 points = sampling_adapter_data.points
 rangecolors = sampling_adapter_data.rangecolors
 
--- mSleep(2000)
+mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
+
+
+-- mSleep(3000)
+-- setStringConfig getStringConfig
+-- 可以用来存储加载时间，下一次直接sleep
+
+-- getCloudContent可以用来在脚本执行过程中提示用户加群
+-- content, err = getCloudContent("NEW_VERSION","32670523E7000928","test")
+-- sysLog(string.format("getCloudContent return content = %s, err = %s", tostring(content), tostring(err)));
+-- if err == 0 then
+--   dialog(content)
+-- elseif err == 1 then
+--   dialog("网络错误")
+-- elseif err == 999 then
+--   dialog("未知错误")
+-- end
+
 -- if true then return end
 
 --主页面->冒险之旅
@@ -41,7 +58,7 @@ click(points.risk_select_mode2_3, sleepTime)
 
 --找到魔女步骤：1、点击3次箭头，2、点击第3条目，3、顺序点击普通，精英，大师，4、下一步
 --点击3次箭头
-click(points.fightpre_select_level_up, 100, 3)
+click(points.fightpre_select_level_up, math.random(50), 3)
 --点击第3条目
 click(points.fightpre_select_level_3)
 --顺序点击普通，精英，大师，这样可以选到最大级别2
@@ -55,7 +72,14 @@ click(points.fightpre_select_level_next, 200)
 local fightCount, fightAllTime, averageTime = 0, 0, 0
 local fightStartTime, fightEndTime = 0, 0
 local loadingTime,loadingTimeStart,loadingTimeEnd = 0,0,0
+loadingTime = getNumberConfig("loadingTime",0)
 
+hud_id = createHUD()
+xStart = 0
+goldPerFight = 19 -- 魔女一次19金币
+if deviceW > 2 * deviceH then
+	xStart = deviceW/2 - deviceH
+end
 --开始循环闯关
 while true do
 	fightStartTime = mTime()
@@ -114,6 +138,7 @@ while true do
 		end
 	)
 
+	print('loadingTime:::',loadingTime)
 	--加载页面，计算一次加载时长，下次直接休眠这么长时间即可
 	if loadingTime == 0 then
 		loadingTimeStart = mTime()
@@ -130,6 +155,7 @@ while true do
 				if loadingTime == 0 then -- 记录loading时间数据，上面再次到加载过程中到就sleep
 					loadingTimeEnd = mTime()
 					loadingTime = loadingTimeEnd - loadingTimeStart
+					setNumberConfig("loadingTime",loadingTime)
 				end
 				findThen(
 					rangecolors.fighting_is_auto_fight.range,
@@ -168,7 +194,7 @@ while true do
 			end
 		end
 	)
-
+	
 	mSleep(2000)
 	--检查结束页面
 	--成功，随便点击一个点，然后开始检查是否有白字（金币上限），然后点击再次挑战，从头循环
@@ -182,8 +208,6 @@ while true do
 			findColors(rangecolors.fight_success_check_white_text.range, rangecolors.fight_success_check_white_text.color, 95, 0, 0, 0)
 		if #successYellowText ~= 0 and #successWhiteText ~= 0 then
 			sysLog("成功结果页面")
-			--随机点击一个点跳过
-			click(math.random(deviceW*0.33,deviceW*0.66), math.random(deviceH*0.33,deviceH*0.66),200,2)
 			fightSuccess = true
 			break
 		else
@@ -193,7 +217,6 @@ while true do
 				findColors(rangecolors.fight_failed_check_white_text_down.range, rangecolors.fight_failed_check_white_text_down.color, 95, 0, 0, 0)
 			if #failedWhiteTextUp ~= 0 and #failedWhiteTextDown ~= 0 then
 				sysLog("失败结果页面")
-				click(points.fight_failed_back)
 				fightSuccess = false
 				break
 			end
@@ -203,6 +226,8 @@ while true do
 	mSleep(2000)
 	sysLog("fightSuccess:",fightSuccess)
 	if fightSuccess then
+		--随机点击一个点跳过
+		click(math.random(deviceW*0.33,deviceW*0.66), math.random(deviceH*0.33,deviceH*0.66))
 		--先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
 		while true do
 			resultSuccessBack = findColors(rangecolors.fight_success_gold_back.range, rangecolors.fight_success_gold_back.color, 90, 0, 0, 0)
@@ -216,6 +241,7 @@ while true do
 						if x > -1 then
 							--金币上限，退出脚本
 							sysLog("金币上限")
+							hideHUD(hud_id)
 							lua_exit()
 							return true
 						else
@@ -227,9 +253,12 @@ while true do
 					end
 				)
 				break
+			else
+				click(math.random(deviceW*0.33,deviceW*0.66), math.random(deviceH*0.33,deviceH*0.66))
 			end
 		end
 	else
+		click(points.fight_failed_back)
 		--失败，退回到选择关卡页面，先判断上下按钮在不在，点击下一步
 		while true do
 			upBtnPoint = findColors(rangecolors.fightpre_select_level_up.range, rangecolors.fightpre_select_level_up.color, 90, 0, 0, 0)
@@ -238,6 +267,8 @@ while true do
 				sysLog("失败了，点击下一步")
 				click(points.fightpre_select_level_next)
 				break
+			else
+				click(points.fight_failed_back)
 			end
 		end
 	end
@@ -247,4 +278,7 @@ while true do
 	fightCount = fightCount + 1
 	averageTime = fightAllTime / fightCount
 	sysLog("loadingTime:",loadingTime,",fightAllTime:",fightAllTime,",fightCount:",fightCount,",averageTime:",averageTime)
+	hudText = string.format('已进行%d次，平均时长%d秒，已获得%d金币',fightCount,averageTime/1000,fightCount*goldPerFight)
+	showHUD(hud_id,hudText,35,"0xff1E90FF","0xafffffff", 0, xStart,deviceH,400,150)
 end
+ 
