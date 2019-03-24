@@ -64,92 +64,142 @@ require("tflibs.sys_fun_redef")
 --X/tempW = samplingX/samplingW
 --(tempH/2-Y)/X = (samplingH/2-samplingY)/samplingX
 --
-function calculate_sampling_item(item,is_black_mode,black_gap,sampling_gap,samplingW,samplingH,tempW,tempH,deviceW,deviceW)
-	x,y=0,0
-	if item.pos == 'top' then
+function calculate_sampling_item(
+	item,
+	is_black_mode,
+	black_gap,
+	sampling_gap,
+	samplingW,
+	samplingH,
+	tempW,
+	tempH,
+	deviceW,
+	deviceW)
+	x, y = 0, 0
+	if item.pos == "top" then
 		if is_black_mode then
 			--(X-black_gap)/tempW =（samplingX-sampling_gap)/(samplingW-2*sampling_gap)
 			--Y/(X-black_gap) = samplingY/(samplingX-sampling_gap)
-			x = ((item.x-sampling_gap)/(samplingW-2*sampling_gap)) * tempW + black_gap
-			y = (item.y/(item.x-sampling_gap)) * (x - black_gap)
+			x = ((item.x - sampling_gap) / (samplingW - 2 * sampling_gap)) * tempW + black_gap
+			y = (item.y / (item.x - sampling_gap)) * (x - black_gap)
 		else
 			--X/tempW = samplingX/samplingW
 			--Y/X = samplingY/samplingX
-			x = (item.x/samplingW) * tempW
-			y = (item.y/item.x) * x
+			x = (item.x / samplingW) * tempW
+			y = (item.y / item.x) * x
 		end
-	elseif item.pos == 'bottom' then
+	elseif item.pos == "bottom" then
 		if is_black_mode then
 			--(X-black_gap)/tempW = （samplingX-sampling_gap)/(samplingW-2*sampling_gap)
 			--(tempH-Y)/(X-black_gap) = (samplingH-samplingY)/(samplingX-sampling_gap)
-			x = ((item.x-sampling_gap)/(samplingW-2*sampling_gap)) * tempW + black_gap
-			y = tempH - (samplingH-item.y)/(item.x-sampling_gap) * (x - black_gap)
+			x = ((item.x - sampling_gap) / (samplingW - 2 * sampling_gap)) * tempW + black_gap
+			y = tempH - (samplingH - item.y) / (item.x - sampling_gap) * (x - black_gap)
 		else
 			--X/tempW = samplingX/samplingW
 			--(tempH-Y)/X = (samplingH-samplingY)/samplingX
-			x = (item.x/samplingW) * tempW
-			y = tempH - ((samplingH-item.y)/item.x) * x
+			x = (item.x / samplingW) * tempW
+			y = tempH - ((samplingH - item.y) / item.x) * x
 		end
-	elseif item.pos == 'mid' then
+	elseif item.pos == "mid" then
 		if is_black_mode then
 			--(X-black_gap)/tempW =（samplingX-sampling_gap)/(samplingW-2*sampling_gap)
 			--(tempH/2-Y)/(X-black_gap) = (samplingH/2-samplingY)/(samplingX-sampling_gap)
-			x = ((item.x-sampling_gap)/(samplingW-2*sampling_gap)) * tempW + black_gap
-			y = tempH/2 - ((samplingH/2-item.y)/(item.x-sampling_gap)) * (x - black_gap)
+			x = ((item.x - sampling_gap) / (samplingW - 2 * sampling_gap)) * tempW + black_gap
+			y = tempH / 2 - ((samplingH / 2 - item.y) / (item.x - sampling_gap)) * (x - black_gap)
 		else
 			--X/tempW = samplingX/samplingW
 			--(tempH/2-Y)/X = (samplingH/2-samplingY)/samplingX
-			x = (item.x/samplingW) * tempW
-			y = tempH/2 - ((samplingH/2-item.y)/item.x) * x
+			x = (item.x / samplingW) * tempW
+			y = tempH / 2 - ((samplingH / 2 - item.y) / item.x) * x
 		end
 	else
-		print('unknown pos:',item)
+		print("unknown pos:", item)
 	end
 	-- print(item.x,'-',item.y,'==>',x,'-',y)
 	item.x = x
 	item.y = y
 end
 
-function calculate_sampling_data(deviceW, deviceH)
+function calculate_sampling_data()
+	deviceW, deviceH = getScreenSize()
 	if deviceW < deviceH then
 		deviceW = deviceW + deviceH
 		deviceH = deviceW - deviceH
 		deviceW = deviceW - deviceH
 	end
 	local is_black_mode = (deviceW >= 2 * deviceH)
-	sampling_json = 'sampling3000x3000.json'
+	sampling_json = "sampling3000x3000.json"
 	local black_gap = 0 -- 黑边模式下，真实设备每一侧的黑边宽度
 	local sampling_gap = 0 -- 黑边模式下，采样设备每一侧的黑边宽度
-	tempW,tempH=deviceW,deviceH --计算过程中使用的宽和高
-	if is_black_mode then  --黑边模式，宽=2*高
-		sampling_json = 'sampling3000x1200.json'
+	tempW, tempH = deviceW, deviceH --计算过程中使用的宽和高
+	if is_black_mode then --黑边模式，宽=2*高
+		sampling_json = "sampling3000x1200.json"
 		tempW = deviceH * 2
-		black_gap = deviceW/2 - deviceH
+		black_gap = deviceW / 2 - deviceH
 	end
-	
+
 	sampling_data_json = getUIContent(sampling_json)
 	sampling_table = JSON:decode(sampling_data_json)
-	samplingW,samplingH = sampling_table.width,sampling_table.height
+	samplingW, samplingH = sampling_table.width, sampling_table.height
 
-	if is_black_mode then  --黑边模式，宽=2*高
-		sampling_gap =  samplingW/2 - samplingH
+	if is_black_mode then --黑边模式，宽=2*高
+		sampling_gap = samplingW / 2 - samplingH
 	end
 
-	sysLog('is_black_mode:',is_black_mode,',sampling_json:',sampling_json,',device:',deviceW,'-',deviceH,',temp:',tempW,'-',tempH,',black_gap:',black_gap,',sampling_gap:',sampling_gap)
+	sysLog(
+		"is_black_mode:",
+		is_black_mode,
+		",sampling_json:",
+		sampling_json,
+		",device:",
+		deviceW,
+		"-",
+		deviceH,
+		",temp:",
+		tempW,
+		"-",
+		tempH,
+		",black_gap:",
+		black_gap,
+		",sampling_gap:",
+		sampling_gap
+	)
 	for k, v in pairs(sampling_table.points) do
-		calculate_sampling_item(v,is_black_mode,black_gap,sampling_gap,samplingW,samplingH,tempW,tempH,deviceW,deviceW)
+		calculate_sampling_item(
+			v,
+			is_black_mode,
+			black_gap,
+			sampling_gap,
+			samplingW,
+			samplingH,
+			tempW,
+			tempH,
+			deviceW,
+			deviceW
+		)
 	end
 	for k, v in pairs(sampling_table.rangecolors) do
 		rangecolor = v
 		range = rangecolor.range
 		if #range == 4 then
 			newrange = {}
-			itemArrs = {{x=range[1],y=range[2],pos=rangecolor.pos},{x=range[3],y=range[4],pos=rangecolor.pos}}
-			for i=1,2 do
+			itemArrs = {{x = range[1], y = range[2], pos = rangecolor.pos}, {x = range[3], y = range[4], pos = rangecolor.pos}}
+			for i = 1, 2 do
 				item = itemArrs[i]
-				calculate_sampling_item(item,is_black_mode,black_gap,sampling_gap,samplingW,samplingH,tempW,tempH,deviceW,deviceW)
-				table.insert(newrange,#newrange+1,item.x)
-				table.insert(newrange,#newrange+1,item.y)
+				calculate_sampling_item(
+					item,
+					is_black_mode,
+					black_gap,
+					sampling_gap,
+					samplingW,
+					samplingH,
+					tempW,
+					tempH,
+					deviceW,
+					deviceW
+				)
+				table.insert(newrange, #newrange + 1, item.x)
+				table.insert(newrange, #newrange + 1, item.y)
 			end
 			rangecolor.range = newrange
 		end

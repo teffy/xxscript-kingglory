@@ -8,16 +8,17 @@ require("config")
 require('tflibs.sys_fun_redef')
 require("tflibs.fun_overload_def")
 require("tflibs.click_action_def")
+require("finishui")
 calculate_sampling_data = require("tflibs.sampling_adapter")
-adapterUI = require("tflibs.ui_adapter")
 
-deviceW, deviceH = getScreenSize()
-
-sampling_adapter_data = calculate_sampling_data(deviceW, deviceH)
-ui_json = adapterUI("ui.json",deviceW, deviceH)
-
+sampling_adapter_data = calculate_sampling_data()
 -- 屏幕方向，0 - 竖屏， 1 - Home键在右边， 2 - Home键在左边
 init("0", 1)
+
+-- 在用户主动终止脚本运行之前执行的回调函数 onBeforeUserExit
+function onBeforeUserExit()
+    FinishUI:showUIOnExit()
+end
 
 timeOut=30000 --超时时间判定为30秒
 sleepTime = 500

@@ -5,7 +5,7 @@
 ------------------------------------------------------------
 
 JSON = require("tflibs.JSON")
-require('config')
+require("config")
 
 --@desc 打印数据，兼容 table
 --@param 要打印的数据
@@ -31,16 +31,16 @@ require('config')
 --@param 要打印的数据
 function get_data_str(data)
     local datatype = type(data)
-    if datatype == 'table' then
+    if datatype == "table" then
         return JSON:encode(data)
-    elseif datatype == 'boolean' then
+    elseif datatype == "boolean" then
         if data then
-            return 'true'
+            return "true"
         else
-            return 'false'
+            return "false"
         end
-    elseif datatype == 'nil' then
-        return 'data is nil'
+    elseif datatype == "nil" then
+        return "data is nil"
     else
         return data
     end
@@ -49,9 +49,9 @@ end
 oldprint = print
 print = function(...)
     if DEBUG then
-        str = ''
+        str = ""
         for k, v in pairs({...}) do
-            str = str..get_data_str(v)
+            str = str .. get_data_str(v)
         end
         oldprint(str)
     end
@@ -60,9 +60,9 @@ end
 oldsysLog = sysLog
 sysLog = function(...)
     if DEBUG then
-        str = ''
+        str = ""
         for k, v in pairs({...}) do
-            str = str..get_data_str(v)
+            str = str .. get_data_str(v)
         end
         oldsysLog(str)
     end

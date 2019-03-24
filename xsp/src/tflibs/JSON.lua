@@ -1414,6 +1414,9 @@ local function encode_value(self, value, parents, etc, options, indent, for_key)
    elseif type(value) == 'boolean' then
       return tostring(value)
 
+   elseif type(value) == 'function' then
+      return 'null'
+
    elseif type(value) ~= 'table' then
 
       if self.unsupportedTypeEncoder then
