@@ -12,29 +12,26 @@ end
 --@averageTime  平均时长，单位毫秒
 --@goldCount    获得金币
 function FinishUI:showUIOnTaskFinish(fightAllTime, goldCount, averageTime)
-    local textSize = 55
-    local textColor = "76,137,228"
-
     local rootview =
         RootView:create(
         {
-            width = 1700,
-            height = 600,
+            width = 1800,
+            height = 1200,
             okname = "朕知道了",
             cancelname = "嘤嘤嘤"
         }
     )
     taskFinish = fightAllTime > 0 and goldCount > 0 and averageTime > 0
     if taskFinish then
-    rootview:addView(
-        Label:create(
-            {
-                text = "🌹恭喜亲🌹，刷到金币上限了",
-                size = textSize,
-                color = textColor
-            }
+        rootview:addView(
+            Label:create(
+                {
+                    text = "🌹恭喜亲🌹，刷到金币上限了",
+                    size = textSize,
+                    color = textColor
+                }
+            )
         )
-    )
         fightInfoText =
             string.format(
             "总时长%s，已获得%d金币，平均每局时长%s",
@@ -82,18 +79,28 @@ function FinishUI:showUIOnTaskFinish(fightAllTime, goldCount, averageTime)
             }
         )
     )
+    local smallElf =
+        Label:create(
+        {
+            text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
+            size = textSize,
+            color = textColor
+        }
+    )
+    smallElf:addExtra("http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk", "下载小精灵版本，脚本更新更及时🚀，点我下载")
+    rootview:addView(smallElf)
+    -- buyState, validTime, res = getUserCredit()
+    -- if buyState == 1 then
 
-    buyState, validTime, res = getUserCredit()
-    if buyState == 1 then
-        rootview:addView(
-            Label:create(
-                {
-                    text = "如果觉得不错，给作者来个打赏吧，你的打赏是我的动力",
-                    size = textSize,
-                    color = textColor
-                }
-            )
+    -- end
+    rootview:addView(
+        Label:create(
+            {
+                text = "如果觉得不错，给作者来个打赏买包辣条吧",
+                size = textSize,
+                color = textColor
+            }
         )
-    end
+    )
     return rootview:showUI()
 end

@@ -1,5 +1,6 @@
 ------------------------------------------------------------
 --@desc 重定义系统方法，扩展系统方法，print,sysLog，使得可以打印table，可接收可变参数
+--      重定义 getScreenSize，把结果中deviceW, deviceH 按照 deviceW > deviceH的方式交换
 --@author teffy
 --@github https://github.com/teffy/xxscript-kingglory
 ------------------------------------------------------------
@@ -66,4 +67,17 @@ sysLog = function(...)
         end
         oldsysLog(str)
     end
+end
+
+
+-- 重定义 getScreenSize，把结果中deviceW, deviceH 按照 deviceW > deviceH的方式交换
+oldgetScreenSize = getScreenSize
+getScreenSize = function()
+    deviceW, deviceH = oldgetScreenSize()
+	if deviceW < deviceH then
+		deviceW = deviceW + deviceH
+		deviceH = deviceW - deviceH
+		deviceW = deviceW - deviceH
+    end
+    return deviceW, deviceH
 end

@@ -1,5 +1,5 @@
-VERSION='0.0.11'
-DEBUG=true
+VERSION='0.0.12'
+DEBUG=false
 IS_FREE=true
 
 --todo 
@@ -8,6 +8,7 @@ IS_FREE=true
 --UI 桌面编辑工具直接生成代码
 --检测用户是否有点券，然后提示他买卡
 
+-- 提示用户下载小精灵版本
 
 -- 使用 showUI 引导用户把手机切换为home在右边
 -- lockDevice iOS 添加选项，结束后是否锁屏

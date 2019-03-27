@@ -5,9 +5,6 @@ require("config")
 MainUI = {}
 
 function MainUI:showUI()
-    local textSize = 55
-    local textColor = "76,137,228"
-
     local rootview =
         RootView:create(
         {
@@ -57,6 +54,16 @@ function MainUI:showUI()
             }
         )
     )
+    local smallElf =
+        Label:create(
+        {
+            text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
+            size = textSize,
+            color = textColor
+        }
+    )
+    smallElf:addExtra("http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk", "下载小精灵版本，脚本更新更及时🚀，点我下载")
+    basePage:addView(smallElf)
     local guideInfo =
         LinearLayout:create(
         {

@@ -8,7 +8,9 @@ require("config")
 require('tflibs.sys_fun_redef')
 require("tflibs.fun_overload_def")
 require("tflibs.click_action_def")
-require("finishui")
+
+textSize = 55
+textColor = "76,137,228"
 calculate_sampling_data = require("tflibs.sampling_adapter")
 
 sampling_adapter_data = calculate_sampling_data()
@@ -17,8 +19,9 @@ init("0", 1)
 
 -- 在用户主动终止脚本运行之前执行的回调函数 onBeforeUserExit
 function onBeforeUserExit()
+    require("ui.finishui")
     FinishUI:showUIOnExit()
 end
 
 timeOut=30000 --超时时间判定为30秒
-sleepTime = 500
+

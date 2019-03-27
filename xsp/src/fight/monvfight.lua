@@ -5,22 +5,25 @@
 ------------------------------------------------------------
 
 require("tflibs.util")
-require("finishui")
+require("ui.finishui")
 
 monv = {}
 function monv:fight(sampling_adapter_data)
-    points = sampling_adapter_data.points
-    rangecolors = sampling_adapter_data.rangecolors
+    local sleepTime = 500
+    local deviceW, deviceH = getScreenSize()
+    local points = sampling_adapter_data.points
+    local rangecolors = sampling_adapter_data.rangecolors
+
     --主页面->冒险之旅
-    click(points.main_risk, sleepTime)
+    click(points.main_risk, {sleepTime=sleepTime})
     --冒险选择-中间
-    click(points.risk_select_mode1_2, sleepTime)
+    click(points.risk_select_mode1_2, {sleepTime=sleepTime})
     --冒险之旅-第三个
-    click(points.risk_select_mode2_3, sleepTime)
+    click(points.risk_select_mode2_3, {sleepTime=sleepTime})
 
     --找到魔女步骤：1、点击3次箭头，2、点击第3条目，3、顺序点击普通，精英，大师，4、下一步
     --点击3次箭头
-    click(points.fightpre_select_level_up, math.random(50), 3)
+    click(points.fightpre_select_level_up, {sleepTime=math.random(50),clickCount=3})
     --点击第3条目
     click(points.fightpre_select_level_3)
     --顺序点击普通，精英，大师，这样可以选到最大级别2
@@ -29,16 +32,16 @@ function monv:fight(sampling_adapter_data)
     click(points.fightpre_level_mode_2)
     click(points.fightpre_level_mode_3)
     --下一步
-    click(points.fightpre_select_level_next, 200)
+    click(points.fightpre_select_level_next, {sleepTime=300})
 
     local fightCount, fightAllTime, averageTime = 0, 0, 0
     local fightStartTime, fightEndTime = 0, 0
     local loadingTime, loadingTimeStart, loadingTimeEnd = 0, 0, 0
-    loadingTime = getNumberConfig("monv_loadingTime", 0)
+    local loadingTime = getNumberConfig("monv_loadingTime", 0)
 
-    hud_id = createHUD()
-    xStart = 0
-    goldPerFight = 19 -- 魔女一次19金币
+    local hud_id = createHUD()
+    local xStart = 0
+    local goldPerFight = 19 -- 魔女一次19金币
     if deviceW > 2 * deviceH then
         xStart = deviceW / 2 - deviceH
     end
@@ -57,14 +60,15 @@ function monv:fight(sampling_adapter_data)
                 rangecolors.fightpre_rush_through.color,
                 90,0,0,0
             )
+            randomTime = math.random(300, 600)
             if #fightpreChangeTeam ~= 0 and #fightpreRushThrough ~= 0 then
                 sysLog("战斗准备页面")
                 -- TODO 需要等一下，第一次英雄列表加载是异步的,可能会导致进去检测到英雄没选全
-                mSleep(math.random(100, 200))
+                mSleep(randomTime)
                 break
             else
-                sysLog("不在战斗准备页面，sleep")
-                mSleep(math.random(100, 200))
+                sysLog("不在战斗准备页面，sleep ",randomTime)
+                mSleep(randomTime)
             end
         end
 
@@ -78,19 +82,21 @@ function monv:fight(sampling_adapter_data)
                 if x > -1 then
                     sysLog("没选够3个英雄")
                     --点击更换阵容
-                    click(points.fightpre_change_team, 800)
+                    click(points.fightpre_change_team, {sleepTime=800})
                     --在选择英雄界面检查第三个英雄是否已经选择
                     findThen(
                         rangecolors.fightpre_pick_hero_check_hero_enough.range,
                         rangecolors.fightpre_pick_hero_check_hero_enough.color,
                         function(x, y)
                             if x > -1 then
-                                --选3个英雄
-                                click(points.fightpre_pick_hero_pos_1, 100)
-                                click(points.fightpre_pick_hero_pos_2, 100)
-                                click(points.fightpre_pick_hero_pos_3, 100)
-                                --点击确定开始
-                                click(points.fightpre_pick_hero_confirm)
+                                clickArray(
+                                    --选3个英雄
+                                    {point=points.fightpre_pick_hero_pos_1, config={sleepTime=math.random(100,200)}},
+                                    {point=points.fightpre_pick_hero_pos_2, config={sleepTime=math.random(100,200)}},
+                                    {point=points.fightpre_pick_hero_pos_3, config={sleepTime=math.random(100,200)}},
+                                    --点击确定开始
+                                    {point=points.fightpre_pick_hero_confirm}
+                                )
                                 return true
                             end
                         end
@@ -167,6 +173,7 @@ function monv:fight(sampling_adapter_data)
         --失败，点击页面上的返回到挑战选关卡页面了，点击下一步
         local fightSuccess = true
         while true do
+            math.randomseed(tostring(os.time()):reverse():sub(1, 6))
             --前1个是挑战成功的条目（任意完成一个），黄色的字，第2个是下面的白色字，前1个或和第2个与
             successYellowText =
                 findColors(
@@ -209,7 +216,7 @@ function monv:fight(sampling_adapter_data)
         sysLog("fightSuccess:", fightSuccess)
         if fightSuccess then
             --随机点击一个点跳过
-            click(math.random(deviceW * 0.33, deviceW * 0.66), math.random(deviceH * 0.33, deviceH * 0.66))
+            randomClick(deviceW,deviceH)
             --先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
             while true do
                 resultSuccessBack =
@@ -246,7 +253,7 @@ function monv:fight(sampling_adapter_data)
                     )
                     break
                 else
-                    click(math.random(deviceW * 0.33, deviceW * 0.66), math.random(deviceH * 0.33, deviceH * 0.66))
+                    randomClick(deviceW,deviceH)
                 end
             end
         else
@@ -291,6 +298,6 @@ function monv:fight(sampling_adapter_data)
         )
         hudText =
             string.format("已进行%d次，平均时长%s，已获得%d金币", fightCount, util:time2Text(averageTime), fightCount * goldPerFight)
-        showHUD(hud_id, hudText, 35, "0xff1E90FF", "0xafffffff", 0, xStart, deviceH, 400, 150)
+        showHUD(hud_id, hudText, 35, "0xff1E90FF", "0xafffffff", 0, xStart, deviceH - 180 , 400, 180)
     end
 end

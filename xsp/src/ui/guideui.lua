@@ -5,23 +5,30 @@ require("config")
 GuideUI = {}
 
 function GuideUI:showUI()
-    local textSize = 55
-    local textColor = "76,137,228"
-
     local rootview =
         RootView:create(
         {
-            width = 1700,
-            height = 600,
+            width = 1800,
+            height = 1200,
             okname = "调整好了",
-            cancelname = "再等等"
+            cancelname = "嘤嘤嘤"
         }
     )
+    local smallElf =
+        Label:create(
+        {
+            text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
+            size = textSize,
+            color = textColor
+        }
+    )
+    smallElf:addExtra("http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk", "下载小精灵版本，脚本更新更及时🚀，点我下载")
+    rootview:addView(smallElf)
     local guideInfo =
         LinearLayout:create(
         {
             width = 1700,
-            height = 500,
+            height = 600,
             valign = VAlign.CENTER
         }
     )

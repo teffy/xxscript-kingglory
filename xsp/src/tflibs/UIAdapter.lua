@@ -8,7 +8,8 @@ require("config")
 
 UIAdapter = {}
 
-defaultW, defaultH = 1440, 2560
+-- 按照横屏模式
+defaultW, defaultH = 2560,1440
 
 --@desc 根据json文件适配UI
 --@param json 文件名
