@@ -4,6 +4,8 @@
 --@github https://github.com/teffy/xxscript-kingglory
 ------------------------------------------------------------
 
+require("config")
+
 --@desc 点击事件
 --@param x x坐标
 --@param y y坐标
@@ -17,22 +19,41 @@ define.click {
 	"number",
 	"table",
 	function(x, y, config)
-		print(config)
 		sysLog("click,x:" .. x .. ",y:" .. y,',config:',config)
+		local deviceW, deviceH = getScreenSize()
 		math.randomseed(tostring(os.time()):reverse():sub(1, 6))
 		local index = math.random(1,5)
 		local sleepTime = (config and config.sleepTime) or 0
 		local clickCount = (config and config.clickCount) or 1
 		local sleepAfter = (config and config.sleepAfter) or 0
+		local hud_id
 		for i=1,clickCount do
+			if SHOW_POINT then
+				hud_id = createHUD()
+			end
 			x = x + math.random(-2,2)
-			if x < 0 then x = 0 end
+			if x < 5 then x = 5 end
+			if x >= deviceW then x = deviceW-5 end
 			y = y + math.random(-2,2)
-			if y < 0 then y = 0 end
+			if y < 5 then y = 5 end
+			if y >= deviceW then y = deviceH-5 end
 			touchDown(index,x, y)
-			mSleep(math.random(sleepTime+60,sleepTime+80))
-			touchUp(index, x, y)
-			mSleep(sleepAfter+200)
+			if SHOW_POINT then
+				showHUD(hud_id,"",1,'0xff000000','red_point.png',0,x-15,y-30,30,30)
+			end
+			local randomX = math.random(-5,5)
+			local randomY = math.random(-5,5)
+			touchMove(index, x + randomX, y + randomY)
+			mSleep(math.random(20,40))
+			-- mSleep(math.random(sleepTime+60,sleepTime+80))
+			touchUp(index, x + randomX, y + randomY)
+			mSleep(sleepAfter+math.random(100,150))
+			if SHOW_POINT then
+				if FOR_TEST then
+					mSleep(5000)
+				end
+				hideHUD(hud_id)
+			end
 		end
 	end
 }

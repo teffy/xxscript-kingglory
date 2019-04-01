@@ -157,6 +157,12 @@
       "y": 1107,
       "pos": "bottom",
       "desc": "挑战成功，再次挑战"
+    },
+    "fight_resting_eyes_red_btn": {
+      "x": 1881,
+      "y": 806,
+      "pos": "mid",
+      "desc": "休息眼睛，红色按钮"
     }
   },
   "rangecolors": {
@@ -336,6 +342,22 @@
       ],
       "color": "0|0|0xccdae1,0|2|0xcfdee5",
       "desc": "挑战成功，奖励页面，金币上限，右侧白色文字",
+      "pos": "mid"
+    },
+    "fight_resting_eyes_red_btn": {
+      "range": [
+        1873,785,1893,829
+      ],
+      "color": "0|0|0xc42750,-1|18|0xaf2344,-1|33|0xa11d3e",
+      "desc": "休息眼睛，红色按钮",
+      "pos": "mid"
+    },
+    "fight_resting_eyes_blue_btn": {
+      "range": [
+        1610,785,1625,825
+      ],
+      "color": "0|0|0x35729b,0|16|0x33658e,0|36|0x2e5780",
+      "desc": "休息眼睛，蓝色按钮",
       "pos": "mid"
     }
   }

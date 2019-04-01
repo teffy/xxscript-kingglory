@@ -9,22 +9,22 @@ require("config")
 UIAdapter = {}
 
 -- 按照横屏模式
-defaultW, defaultH = 2560,1440
+local defaultW, defaultH = 2560,1440
 
 --@desc 根据json文件适配UI
 --@param json 文件名
 function UIAdapter:adapterUIByJson(json)
-    content = getUIContent(json)
-    uiData = JSON:decode(content)
+    local content = getUIContent(json)
+    local uiData = JSON:decode(content)
     return adapterUI(uiData)
 end
 
 --@desc 适配UI
 --@param uiData ui table 数据
 function UIAdapter:adapterUI(uiData)
-    deviceW, deviceH = getScreenSize()
-    scaleW = deviceW / defaultW
-    scaleH = deviceH / defaultH
+    local deviceW, deviceH = getScreenSize()
+    local scaleW = deviceW / defaultW
+    local scaleH = deviceH / defaultH
     if deviceW > 2 * deviceH then -- 黑边模式，不能按照设备宽高缩放
         scaleW = deviceH * 2 / defaultW
     end

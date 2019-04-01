@@ -1,5 +1,10 @@
 VERSION='0.0.12'
-DEBUG=false
+-- debug?打印log
+DEBUG=true
+-- 显示点击坐标红点
+SHOW_POINT=true
+-- 给用户测试
+FOR_TEST=false
 IS_FREE=true
 
 --todo 

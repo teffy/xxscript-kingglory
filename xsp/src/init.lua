@@ -11,7 +11,7 @@ require("tflibs.click_action_def")
 
 textSize = 55
 textColor = "76,137,228"
-calculate_sampling_data = require("tflibs.sampling_adapter")
+local calculate_sampling_data = require("tflibs.sampling_adapter")
 
 sampling_adapter_data = calculate_sampling_data()
 -- 屏幕方向，0 - 竖屏， 1 - Home键在右边， 2 - Home键在左边
@@ -24,4 +24,3 @@ function onBeforeUserExit()
 end
 
 timeOut=30000 --超时时间判定为30秒
-

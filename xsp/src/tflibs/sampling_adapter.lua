@@ -121,9 +121,9 @@ function calculate_sampling_item(
 end
 
 function calculate_sampling_data()
-	deviceW, deviceH = getScreenSize()
+	local deviceW, deviceH = getScreenSize()
 	local is_black_mode = (deviceW >= 2 * deviceH)
-	sampling_json = "sampling3000x3000.json"
+	local sampling_json = "sampling3000x3000.json"
 	local black_gap = 0 -- 黑边模式下，真实设备每一侧的黑边宽度
 	local sampling_gap = 0 -- 黑边模式下，采样设备每一侧的黑边宽度
 	tempW, tempH = deviceW, deviceH --计算过程中使用的宽和高

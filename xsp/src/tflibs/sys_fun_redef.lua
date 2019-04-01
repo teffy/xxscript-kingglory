@@ -50,7 +50,7 @@ end
 oldprint = print
 print = function(...)
     if DEBUG then
-        str = ""
+        local str = ""
         for k, v in pairs({...}) do
             str = str .. get_data_str(v)
         end
@@ -61,7 +61,7 @@ end
 oldsysLog = sysLog
 sysLog = function(...)
     if DEBUG then
-        str = ""
+        local str = ""
         for k, v in pairs({...}) do
             str = str .. get_data_str(v)
         end
@@ -73,7 +73,7 @@ end
 -- 重定义 getScreenSize，把结果中deviceW, deviceH 按照 deviceW > deviceH的方式交换
 oldgetScreenSize = getScreenSize
 getScreenSize = function()
-    deviceW, deviceH = oldgetScreenSize()
+    local deviceW, deviceH = oldgetScreenSize()
 	if deviceW < deviceH then
 		deviceW = deviceW + deviceH
 		deviceH = deviceW - deviceH
