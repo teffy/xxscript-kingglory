@@ -1,28 +1,55 @@
+------------------------------------------------------------
+--@desc 脚本结束 UI
+--@author teffy
+--@github https://github.com/teffy/xxscript-kingglory
+------------------------------------------------------------
+
 require("tflibs.util")
 require("tflibs.XXUI")
 require("config")
 
 FinishUI = {}
 
+showed = false
+
 function FinishUI:showUIOnExit()
-    return FinishUI:showUIOnTaskFinish(0, 0, 0)
+    return FinishUI:showUIOnTaskFinish(nil, false)
 end
+
 --@desc 任务执行完成，提示用户
---@fightAllTime 总执行时长，单位毫秒
---@averageTime  平均时长，单位毫秒
---@goldCount    获得金币
-function FinishUI:showUIOnTaskFinish(fightAllTime, goldCount, averageTime)
+--@param fightResult
+--                  fightAllTime 总执行时长，单位毫秒
+--                  averageTime  平均时长，单位毫秒
+--                  goldCount    获得金币
+--@param goldLimitFinish，是否是金币上限结束的
+function FinishUI:showUIOnTaskFinish(fightResult, goldLimitFinish)
+    local fightAllTime, goldCount, averageTime = 0, 0, 0
+    if fightResult then
+        fightAllTime = fightResult.fightAllTime
+        goldCount = fightResult.goldCount
+        averageTime = fightResult.averageTime
+    end
+    print("showUIOnTaskFinish:", showed)
+    if showed then
+        return
+    end
+    local oknameStr = "朕知道了"
+    local countdownTime = -1
+    if autoCloseGame and goldLimitFinish then
+        oknameStr = "关闭游戏"
+        countdownTime = 10
+    end
     local rootview =
         RootView:create(
         {
             width = 1800,
             height = 1200,
-            okname = "朕知道了",
-            cancelname = "嘤嘤嘤"
+            okname = oknameStr,
+            cancelname = "嘤嘤嘤",
+            countdown = countdownTime
         }
     )
-    taskFinish = fightAllTime > 0 and goldCount > 0 and averageTime > 0
-    if taskFinish then
+    if goldLimitFinish then
         rootview:addView(
             Label:create(
                 {
@@ -52,7 +79,7 @@ function FinishUI:showUIOnTaskFinish(fightAllTime, goldCount, averageTime)
         rootview:addView(
             Label:create(
                 {
-                    text = "遇到❓神马问题了吗？联系作者反馈问题吧",
+                    text = "遇到神马问题了吗❓联系作者反馈问题",
                     size = textSize,
                     color = textColor
                 }
@@ -87,7 +114,10 @@ function FinishUI:showUIOnTaskFinish(fightAllTime, goldCount, averageTime)
             color = textColor
         }
     )
-    smallElf:addExtra("http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk", "下载小精灵版本，脚本更新更及时🚀，点我下载")
+    smallElf:addExtra(
+        "http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk",
+        "下载小精灵版本，脚本更新更及时🚀，点我下载"
+    )
     rootview:addView(smallElf)
     -- buyState, validTime, res = getUserCredit()
     -- if buyState == 1 then
@@ -96,11 +126,17 @@ function FinishUI:showUIOnTaskFinish(fightAllTime, goldCount, averageTime)
     rootview:addView(
         Label:create(
             {
-                text = "如果觉得不错，给作者来个打赏买包辣条吧",
+                text = "如果觉得不错，推荐给其他小伙伴吧",
                 size = textSize,
                 color = textColor
             }
         )
     )
-    return rootview:showUI()
+    showed = true
+    local ret, result = rootview:showUI()
+    if ret == 1 and autoCloseGame and goldLimitFinish then
+        local re = closeApp(APP_PACKAGE_NAME)
+        lockDevice()
+    end
+    lua_exit()
 end

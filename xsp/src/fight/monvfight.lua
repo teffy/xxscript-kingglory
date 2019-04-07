@@ -15,28 +15,29 @@ function monv:fight(sampling_adapter_data)
     local rangecolors = sampling_adapter_data.rangecolors
 
     --主页面->冒险之旅
-    click(points.main_risk, {sleepTime=sleepTime})
+    click(points.main_risk, {sleepTime = sleepTime})
     --冒险选择-中间
-    click(points.risk_select_mode1_2, {sleepTime=sleepTime})
+    click(points.risk_select_mode1_2, {sleepTime = sleepTime})
     --冒险之旅-第三个
-    click(points.risk_select_mode2_3, {sleepTime=sleepTime})
+    click(points.risk_select_mode2_3, {sleepTime = sleepTime})
 
     --找到魔女步骤：1、点击3次箭头，2、点击第3条目，3、顺序点击普通，精英，大师，4、下一步
     --点击3次箭头
-    click(points.fightpre_select_level_up, {sleepTime=math.random(50),clickCount=3})
+    click(points.fightpre_select_level_up, {sleepTime = math.random(50), clickCount = 3})
     --点击第3条目
-    click(points.fightpre_select_level_3)
+    click(points.fightpre_select_level_3, {sleepTime = 200})
     --顺序点击普通，精英，大师，这样可以选到最大级别2
     --TODO  是否需要这样？？？是否可以检测是否有大师级别
-    click(points.fightpre_level_mode_1)
-    click(points.fightpre_level_mode_2)
-    click(points.fightpre_level_mode_3)
+    click(points.fightpre_level_mode_1, {sleepTime = 200})
+    click(points.fightpre_level_mode_2, {sleepTime = 200})
+    click(points.fightpre_level_mode_3, {sleepTime = 200})
     --下一步
-    click(points.fightpre_select_level_next, {sleepTime=300})
+    click(points.fightpre_select_level_next, {sleepTime = 200})
 
-    local fightCount, fightAllTime, averageTime = 0, 0, 0
+    local fightCount, fightAllTime, averageTime, goldCount = 0, 0, 0, 0
     local fightStartTime, fightEndTime = 0, 0
     local loadingTime, loadingTimeStart, loadingTimeEnd = 0, 0, 0
+    local goldLimit = false
     local loadingTime = getNumberConfig("monv_loadingTime", 0)
 
     local hud_id = createHUD()
@@ -45,6 +46,11 @@ function monv:fight(sampling_adapter_data)
     if deviceW > 2 * deviceH then
         xStart = deviceW / 2 - deviceH
     end
+
+    local function _showHUD(hudText)
+        showHUD(hud_id, hudText, 35, "0xff1E90FF", "0xafffffff", 0, xStart, deviceH - 180, 400, 180)
+    end
+
     --开始循环闯关
     while true do
         fightStartTime = mTime()
@@ -58,7 +64,10 @@ function monv:fight(sampling_adapter_data)
                 findColors(
                 rangecolors.fightpre_rush_through.range,
                 rangecolors.fightpre_rush_through.color,
-                90,0,0,0
+                90,
+                0,
+                0,
+                0
             )
             randomTime = math.random(300, 600)
             if #fightpreChangeTeam ~= 0 and #fightpreRushThrough ~= 0 then
@@ -67,7 +76,7 @@ function monv:fight(sampling_adapter_data)
                 mSleep(randomTime)
                 break
             else
-                sysLog("不在战斗准备页面，sleep ",randomTime)
+                sysLog("不在战斗准备页面，sleep ", randomTime)
                 mSleep(randomTime)
             end
         end
@@ -82,7 +91,7 @@ function monv:fight(sampling_adapter_data)
                 if x > -1 then
                     sysLog("没选够3个英雄")
                     --点击更换阵容
-                    click(points.fightpre_change_team, {sleepTime=800})
+                    click(points.fightpre_change_team, {sleepTime = 800})
                     --在选择英雄界面检查第三个英雄是否已经选择
                     findThen(
                         rangecolors.fightpre_pick_hero_check_hero_enough.range,
@@ -91,11 +100,20 @@ function monv:fight(sampling_adapter_data)
                             if x > -1 then
                                 clickArray(
                                     --选3个英雄
-                                    {point=points.fightpre_pick_hero_pos_1, config={sleepTime=math.random(100,200)}},
-                                    {point=points.fightpre_pick_hero_pos_2, config={sleepTime=math.random(100,200)}},
-                                    {point=points.fightpre_pick_hero_pos_3, config={sleepTime=math.random(100,200)}},
+                                    {
+                                        point = points.fightpre_pick_hero_pos_1,
+                                        config = {sleepTime = math.random(100, 200)}
+                                    },
+                                    {
+                                        point = points.fightpre_pick_hero_pos_2,
+                                        config = {sleepTime = math.random(100, 200)}
+                                    },
+                                    {
+                                        point = points.fightpre_pick_hero_pos_3,
+                                        config = {sleepTime = math.random(100, 200)}
+                                    },
                                     --点击确定开始
-                                    {point=points.fightpre_pick_hero_confirm}
+                                    {point = points.fightpre_pick_hero_confirm}
                                 )
                                 return true
                             end
@@ -156,7 +174,7 @@ function monv:fight(sampling_adapter_data)
             rangecolors.fighting_is_skip_showing.color,
             function(x, y)
                 if x > -1 then
-                    click(points.fighting_skip)
+                    click(points.fighting_skip, {sleepAfter = 1000})
                     sysLog("click 跳过")
                     clickNextCount = clickNextCount + 1
                     if clickNextCount == 2 then
@@ -173,19 +191,25 @@ function monv:fight(sampling_adapter_data)
         --失败，点击页面上的返回到挑战选关卡页面了，点击下一步
         local fightSuccess = true
         while true do
-            math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+            math.randomseed(tostring(os.time()):reverse():sub(1, 7))
             --前1个是挑战成功的条目（任意完成一个），黄色的字，第2个是下面的白色字，前1个或和第2个与
             successYellowText =
                 findColors(
                 rangecolors.fight_success_check_yellow_text.range,
                 rangecolors.fight_success_check_yellow_text.color,
-                95,0,0,0
+                95,
+                0,
+                0,
+                0
             )
             successWhiteText =
                 findColors(
                 rangecolors.fight_success_check_white_text.range,
                 rangecolors.fight_success_check_white_text.color,
-                95,0,0,0
+                95,
+                0,
+                0,
+                0
             )
             if #successYellowText ~= 0 and #successWhiteText ~= 0 then
                 sysLog("成功结果页面")
@@ -196,13 +220,19 @@ function monv:fight(sampling_adapter_data)
                     findColors(
                     rangecolors.fight_failed_check_white_text_up.range,
                     rangecolors.fight_failed_check_white_text_up.color,
-                    95,0,0,0
+                    95,
+                    0,
+                    0,
+                    0
                 )
                 failedWhiteTextDown =
                     findColors(
                     rangecolors.fight_failed_check_white_text_down.range,
                     rangecolors.fight_failed_check_white_text_down.color,
-                    95,0,0,0
+                    95,
+                    0,
+                    0,
+                    0
                 )
                 if #failedWhiteTextUp ~= 0 and #failedWhiteTextDown ~= 0 then
                     sysLog("失败结果页面")
@@ -216,20 +246,26 @@ function monv:fight(sampling_adapter_data)
         sysLog("fightSuccess:", fightSuccess)
         if fightSuccess then
             --随机点击一个点跳过
-            randomClick(deviceW,deviceH)
+            randomClick(deviceW, deviceH)
             --先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
             while true do
                 resultSuccessBack =
                     findColors(
                     rangecolors.fight_success_gold_back.range,
                     rangecolors.fight_success_gold_back.color,
-                    90,0,0,0
+                    90,
+                    0,
+                    0,
+                    0
                 )
                 resultSuccessFightAgain =
                     findColors(
                     rangecolors.fight_success_gold_fight_again.range,
                     rangecolors.fight_success_gold_fight_again.color,
-                    90,0,0,0
+                    90,
+                    0,
+                    0,
+                    0
                 )
                 if #resultSuccessBack ~= 0 and #resultSuccessFightAgain ~= 0 then
                     findThen(
@@ -237,12 +273,29 @@ function monv:fight(sampling_adapter_data)
                         rangecolors.fight_success_gold_limit.color,
                         function(x, y)
                             if x > -1 then
-                                --金币上限，退出脚本
+                                goldLimit = true
                                 sysLog("金币上限")
-                                hideHUD(hud_id)
-	                            FinishUI:showUIOnTaskFinish(fightAllTime, fightCount * goldPerFight, averageTime)
-                                lua_exit()
-                                return true
+                                if autoStop then
+                                    --金币上限，退出脚本
+                                    fightEndTime = mTime()
+                                    fightAllTime = fightAllTime + (fightEndTime - fightStartTime)
+                                    fightCount = fightCount + 1
+                                    averageTime = fightAllTime / fightCount
+                                    FinishUI:showUIOnTaskFinish(
+                                        {
+                                            fightAllTime = fightAllTime,
+                                            goldCount = goldCount,
+                                            averageTime = averageTime
+                                        },
+                                        goldLimit
+                                    )
+                                    hideHUD(hud_id)
+                                    return true
+                                else
+                                    sysLog("金币上限，继续刷经验")
+                                    click(points.fight_success_fight_again)
+                                    return true
+                                end
                             else
                                 --金币还没上限，再次挑战  challengeAgain
                                 sysLog("金币不到上限，再次挑战")
@@ -253,7 +306,7 @@ function monv:fight(sampling_adapter_data)
                     )
                     break
                 else
-                    randomClick(deviceW,deviceH)
+                    randomClick(deviceW, deviceH)
                 end
             end
         else
@@ -264,13 +317,19 @@ function monv:fight(sampling_adapter_data)
                     findColors(
                     rangecolors.fightpre_select_level_up.range,
                     rangecolors.fightpre_select_level_up.color,
-                    90,0,0,0
+                    90,
+                    0,
+                    0,
+                    0
                 )
                 downBtnPoint =
                     findColors(
                     rangecolors.fightpre_select_level_down.range,
                     rangecolors.fightpre_select_level_down.color,
-                    90,0,0,0
+                    90,
+                    0,
+                    0,
+                    0
                 )
                 if #upBtnPoint ~= 0 and #downBtnPoint ~= 0 then
                     sysLog("失败了，点击下一步")
@@ -286,6 +345,10 @@ function monv:fight(sampling_adapter_data)
         fightAllTime = fightAllTime + (fightEndTime - fightStartTime)
         fightCount = fightCount + 1
         averageTime = fightAllTime / fightCount
+
+        if not goldLimit then
+            goldCount = fightCount * goldPerFight
+        end
         sysLog(
             "loadingTime:",
             loadingTime,
@@ -296,8 +359,7 @@ function monv:fight(sampling_adapter_data)
             ",averageTime:",
             averageTime
         )
-        hudText =
-            string.format("已进行%d次，平均时长%s，已获得%d金币", fightCount, util:time2Text(averageTime), fightCount * goldPerFight)
-        showHUD(hud_id, hudText, 35, "0xff1E90FF", "0xafffffff", 0, xStart, deviceH - 180 , 400, 180)
+        hudText = string.format("已进行%d次，平均时长%s，已获得%d金币", fightCount, util:time2Text(averageTime), goldCount)
+        _showHUD(hudText)
     end
 end

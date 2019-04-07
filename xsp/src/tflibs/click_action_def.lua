@@ -88,31 +88,6 @@ define.click {
 	end
 }
 
---@desc 根据坐标颜色找到点之后执行 thenFn 方法
---@param posRange 坐标，上下左右
---@param posColor 颜色
---@param similarity 相似度
---@param thenFn 找到之后要执行的方法，该方法必须有返回 true的 case，否则会陷入死循环
-define.findThen {
-	"table",
-	"string",
-	"number",
-	"function",
-	function(posRange, posColor, similarity, thenFn)
-		sysLog("posRange:", posRange, ",posColor:", posColor)
-		--		keepScreen(true)
-		while true do
-			x, y = findColor(posRange, posColor, similarity, 0, 0, 0)
-			--sysLog("findThen,x:"..x..",y:"..y)
-			if thenFn(x, y) then
-				break
-			end
-			mSleep(math.random(100, 200))
-		end
-		--		keepScreen(false)
-	end
-}
-
 function randomClick(deviceW,deviceH)
 	math.randomseed(tostring(os.time()))
 	click(math.random(deviceW * 0.33, deviceW * 0.66), math.random(deviceH * 0.33, deviceH * 0.66))
@@ -129,11 +104,60 @@ function clickArray(...)
 	end
 end
 
+--@desc 根据坐标颜色找到点之后执行 thenFn 方法
+--@param posRange 坐标，上下左右
+--@param posColor 颜色
+--@param similarity 相似度
+--@param thenFn 找到之后要执行的方法，该方法必须有返回 true的 case，否则会陷入死循环
+--@param timeOut 超时时长
+--@param timeOutFn 超时之后要执行的方法
+define.findThen {
+	"table",
+	"string",
+	"number",
+	"function",
+	"number",
+	"function",
+	function(posRange, posColor, similarity, thenFn,timeOut,timeOutFn)
+		sysLog("posRange:", posRange, ",posColor:", posColor)
+		--		keepScreen(true)
+		local mStart = mTime()
+		local mEnd = 0
+		while true do
+			x, y = findColor(posRange, posColor, similarity, 0, 0, 0)
+			--sysLog("findThen,x:"..x..",y:"..y)
+			if thenFn(x, y) then
+				break
+			end
+			mSleep(math.random(100, 200))
+			if timeOutFn and timeOut > 0 then
+				mEnd = mTime()
+				if mEnd - mStart > timeOut then
+					if timeOutFn() then
+						break
+					end
+				end
+			end
+		end
+		--		keepScreen(false)
+	end
+}
+
 define.findThen {
 	"table",
 	"string",
 	"function",
 	function(posRange, posColor, thenFn)
-		findThen(posRange, posColor, 95, thenFn)
+		findThen(posRange, posColor, 95, thenFn,0,function() return true end)
+	end
+}
+
+
+define.findThenArray {
+	"table",
+	"string",
+	"function",
+	function(posRange, posColor, thenFn)
+		findThen(posRange, posColor, 95, thenFn,0,function() return true end)
 	end
 }

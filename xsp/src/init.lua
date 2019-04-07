@@ -14,8 +14,9 @@ textColor = "76,137,228"
 local calculate_sampling_data = require("tflibs.sampling_adapter")
 
 sampling_adapter_data = calculate_sampling_data()
+
 -- 屏幕方向，0 - 竖屏， 1 - Home键在右边， 2 - Home键在左边
-init("0", 1)
+init(APP_PACKAGE_NAME, 1)
 
 -- 在用户主动终止脚本运行之前执行的回调函数 onBeforeUserExit
 function onBeforeUserExit()

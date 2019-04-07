@@ -1,3 +1,10 @@
+------------------------------------------------------------
+--@desc 引导用户调整手机 UI
+--@author teffy
+--@github https://github.com/teffy/xxscript-kingglory
+------------------------------------------------------------
+
+
 require("tflibs.util")
 require("tflibs.XXUI")
 require("config")

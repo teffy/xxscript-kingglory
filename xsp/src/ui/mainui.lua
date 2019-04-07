@@ -1,3 +1,9 @@
+------------------------------------------------------------
+--@desc 主页面 UI
+--@author teffy
+--@github https://github.com/teffy/xxscript-kingglory
+------------------------------------------------------------
+
 require("tflibs.util")
 require("tflibs.XXUI")
 require("config")
@@ -12,14 +18,14 @@ function MainUI:showUI()
             height = 1200,
             okname = "开始脚本",
             cancelname = "休息一下",
-            countdown = 10
+            countdown = 15
         }
     )
     local basePage = Page:create({text = "基础设置"})
     local baseInfo =
         LinearLayout:create(
         {
-            width = 1700,
+            width = 1800,
             height = 100
         }
     )
@@ -33,17 +39,30 @@ function MainUI:showUI()
             }
         )
     )
-    version = "Version " .. VERSION
-    baseInfo:addView(
-        Label:create(
-            {
-                text = version,
-                width = 600,
-                size = textSize,
-                color = textColor
-            }
+    if FOR_TEST then
+        basePage:addView(
+            Label:create(
+                {
+                    text = " 测试版本，新进群的不要下载使用，如果是帮群主测试的，请将运行结果反馈给群主",
+                    size = textSize,
+                    color = textColor
+                }
+            )
         )
-    )
+    else
+        local version = "Version " .. VERSION
+        baseInfo:addView(
+            Label:create(
+                {
+                    text = version,
+                    width = 600,
+                    size = textSize,
+                    color = textColor
+                }
+            )
+        )
+    end
+
     basePage:addView(baseInfo)
     basePage:addView(
         Label:create(
@@ -62,8 +81,38 @@ function MainUI:showUI()
             color = textColor
         }
     )
-    smallElf:addExtra("http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk", "下载小精灵版本，脚本更新更及时🚀，点我下载")
+    smallElf:addExtra(
+        "http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk",
+        "下载小精灵版本，脚本更新更及时🚀，点我下载"
+    )
     basePage:addView(smallElf)
+    basePage:addView(
+        CheckBoxGroup:create(
+            {
+                id = "autoStop",
+                width = 400,
+                list = "到金币上限自动停止",
+                select = "0"
+            }
+        )
+    )
+
+    local autoCloseGameList = "到金币上限自动关闭游戏"
+    local osType = getOSType()
+    local isiOS = (osType == "iOS")
+    if isiOS then 
+        autoCloseGameList = autoCloseGameList.."并锁屏"
+    end
+    basePage:addView(
+        CheckBoxGroup:create(
+            {
+                id = "autoCloseGame",
+                width = 600,
+                list = autoCloseGameList
+                -- select = "0"
+            }
+        )
+    )
     local guideInfo =
         LinearLayout:create(
         {
