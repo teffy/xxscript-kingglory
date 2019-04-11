@@ -6,6 +6,19 @@
 
 require("config")
 
+local defaultSleepTime = 40
+rootMode = isPrivateMode()
+osType = getOSType()
+if osType == "iOS" then
+	--defaultSleepTime = 40
+elseif osType == "android" then
+	if rootMode == 0 then
+		defaultSleepTime = 500
+	elseif rootMode == 1 then
+		--defaultSleepTime = 40
+	end
+end
+
 --@desc 点击事件
 --@param x x坐标
 --@param y y坐标
@@ -19,39 +32,48 @@ define.click {
 	"number",
 	"table",
 	function(x, y, config)
-		sysLog("click,x:" .. x .. ",y:" .. y,',config:',config)
+		sysLog("click,x:" .. x .. ",y:" .. y, ",config:", config)
 		local deviceW, deviceH = getScreenSize()
 		math.randomseed(tostring(os.time()):reverse():sub(1, 6))
-		local index = math.random(1,5)
+		local index = math.random(1, 5)
 		local sleepTime = (config and config.sleepTime) or 0
 		local clickCount = (config and config.clickCount) or 1
-		local sleepAfter = (config and config.sleepAfter) or 0
+		local sleepAfter = (config and config.sleepAfter) or defaultSleepTime
 		local hud_id
-		for i=1,clickCount do
-			if SHOW_POINT then
+		for i = 1, clickCount do
+			if FOR_TEST then
 				hud_id = createHUD()
 			end
-			x = x + math.random(-2,2)
-			if x < 5 then x = 5 end
-			if x >= deviceW then x = deviceW-5 end
-			y = y + math.random(-2,2)
-			if y < 5 then y = 5 end
-			if y >= deviceW then y = deviceH-5 end
-			touchDown(index,x, y)
-			if SHOW_POINT then
-				showHUD(hud_id,"",1,'0xff000000','red_point.png',0,x-15,y-30,30,30)
+			x = x + math.random(-2, 2)
+			if x < 5 then
+				x = 5
 			end
-			local randomX = math.random(-5,5)
-			local randomY = math.random(-5,5)
-			touchMove(index, x + randomX, y + randomY)
-			mSleep(math.random(20,40))
+			if x >= deviceW then
+				x = deviceW - 5
+			end
+			y = y + math.random(-2, 2)
+			if y < 5 then
+				y = 5
+			end
+			if y >= deviceW then
+				y = deviceH - 5
+			end
+			if FOR_TEST then
+				showHUD(hud_id, "", 1, "0xff000000", "red_point.png", 0, x - 15, y - 30, 30, 30)
+				mSleep(RED_POINT_SHOW_TIME)
+			end
+			touchDown(index, x, y)
+			-- local randomX = math.random(-5,5)
+			-- local randomY = math.random(-5,5)
+			mSleep(sleepTime + math.random(80, 120))
+			-- touchMove(index, x + randomX, y + randomY)
+			-- mSleep(math.random(10,20))
 			-- mSleep(math.random(sleepTime+60,sleepTime+80))
-			touchUp(index, x + randomX, y + randomY)
-			mSleep(sleepAfter+math.random(100,150))
-			if SHOW_POINT then
-				if FOR_TEST then
-					mSleep(5000)
-				end
+			-- touchUp(index, x + randomX, y + randomY)
+			touchUp(index, x, y)
+			mSleep(sleepAfter + math.random(100, 150))
+			if FOR_TEST then
+				mSleep(RED_POINT_SHOW_TIME)
 				hideHUD(hud_id)
 			end
 		end
@@ -62,7 +84,7 @@ define.click {
 	"number",
 	"number",
 	function(x, y)
-		click(x,y,{})
+		click(x, y, {})
 	end
 }
 
@@ -88,7 +110,7 @@ define.click {
 	end
 }
 
-function randomClick(deviceW,deviceH)
+function randomClick(deviceW, deviceH)
 	math.randomseed(tostring(os.time()))
 	click(math.random(deviceW * 0.33, deviceW * 0.66), math.random(deviceH * 0.33, deviceH * 0.66))
 end
@@ -96,10 +118,10 @@ end
 -- 顺序点击这样的坐标点数组，[{point:{},config:{}}]
 function clickArray(...)
 	local arg = {...}
-	for i=1,#arg do
+	for i = 1, #arg do
 		local item = arg[i]
 		if item.point then
-			click(item.point,item.config or {})
+			click(item.point, item.config or {})
 		end
 	end
 end
@@ -118,7 +140,7 @@ define.findThen {
 	"function",
 	"number",
 	"function",
-	function(posRange, posColor, similarity, thenFn,timeOut,timeOutFn)
+	function(posRange, posColor, similarity, thenFn, timeOut, timeOutFn)
 		sysLog("posRange:", posRange, ",posColor:", posColor)
 		--		keepScreen(true)
 		local mStart = mTime()
@@ -148,16 +170,33 @@ define.findThen {
 	"string",
 	"function",
 	function(posRange, posColor, thenFn)
-		findThen(posRange, posColor, 95, thenFn,0,function() return true end)
+		findThen(
+			posRange,
+			posColor,
+			95,
+			thenFn,
+			0,
+			function()
+				return true
+			end
+		)
 	end
 }
-
 
 define.findThenArray {
 	"table",
 	"string",
 	"function",
 	function(posRange, posColor, thenFn)
-		findThen(posRange, posColor, 95, thenFn,0,function() return true end)
+		findThen(
+			posRange,
+			posColor,
+			95,
+			thenFn,
+			0,
+			function()
+				return true
+			end
+		)
 	end
 }

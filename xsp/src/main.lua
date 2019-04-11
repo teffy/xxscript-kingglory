@@ -6,6 +6,7 @@
 
 require("init")
 require("fight.monvfight")
+require("fight.tongtiantafight")
 
 require("ui.mainui")
 require("ui.guideui")
@@ -25,6 +26,14 @@ else
     return
 end
 
+-- setNumberConfig("monv_loadingTime",0)
+-- setNumberConfig("tongtianta_loadingTime",0)
+
+local loadingTime1 = getNumberConfig("monv_loadingTime", 0)
+local loadingTime2 = getNumberConfig("tongtianta_loadingTime", 0)
+print(loadingTime1)
+print(loadingTime2)
+
 require("ui.checkdownload")
 CheckDownload:checkDownload()
 
@@ -36,6 +45,10 @@ if screenD ~= 1 then
     GuideUI:showUI()
 end
 
+points = sampling_adapter_data.points
+rangecolors = sampling_adapter_data.rangecolors
+deviceW, deviceH = getScreenSize()
+
 mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
 
 --for k,v in pairs(result) do
@@ -45,8 +58,6 @@ mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
 local test = false
 if test then
     mSleep(3000)
-    local points = sampling_adapter_data.points
-    local rangecolors = sampling_adapter_data.rangecolors
     findThen(
         rangecolors.fighting_is_auto_fight.range,
         rangecolors.fighting_is_auto_fight.color,
@@ -63,5 +74,5 @@ if test then
     return
 end
 
--- require('auxiliarytask')
-monv:fight(sampling_adapter_data)
+-- monv:fight()
+tongtianta:fight()
