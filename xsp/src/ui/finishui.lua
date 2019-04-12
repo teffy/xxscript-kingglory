@@ -23,6 +23,9 @@ end
 --                  goldCount    获得金币
 --@param goldLimitFinish，是否是金币上限结束的
 function FinishUI:showUIOnTaskFinish(fightResult, goldLimitFinish)
+    if userClick ~= 1 then -- 用户开始就点了取消
+        return
+    end
     local fightAllTime, goldCount, averageTime = 0, 0, 0
     if fightResult then
         fightAllTime = fightResult.fightAllTime

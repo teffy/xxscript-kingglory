@@ -5,9 +5,6 @@
 ------------------------------------------------------------
 
 require("init")
-require("fight.monvfight")
-require("fight.tongtiantafight")
-
 require("ui.mainui")
 require("ui.guideui")
 
@@ -16,13 +13,15 @@ local autoStopStr = result.autoStop
 local autoCloseGameStr = result.autoCloseGame
 autoStop = (autoStopStr == "0")
 autoCloseGame = (autoCloseGameStr == "0")
+userClick = ret
+local selectFight = result.selectFight
 if ret == 1 then
     sysLog("确定")
 else
     sysLog("取消")
     require("ui.finishui")
     FinishUI:showUIOnExit()
-    mSleep(100000)
+    -- mSleep(100000)
     return
 end
 
@@ -55,24 +54,16 @@ mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
 --	 print(k..":"..v)
 --end
 
-local test = false
+local test = nil
 if test then
-    mSleep(3000)
-    findThen(
-        rangecolors.fighting_is_auto_fight.range,
-        rangecolors.fighting_is_auto_fight.color,
-        function(x, y)
-            if x > -1 then
-                taost("已经是自动")
-            else
-                toast("不是自动，点击自动")
-                click(points.fighting_auto_fight)
-            end
-            return true
-        end
-    )
+    -- mSleep(3000)
     return
 end
 
--- monv:fight()
-tongtianta:fight()
+if selectFight == "0" then
+    require("fight.monvfight")
+    monv:fight()
+elseif selectFight == "1" then
+    require("fight.tongtiantafight")
+    tongtianta:fight()
+end

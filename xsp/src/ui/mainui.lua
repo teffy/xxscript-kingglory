@@ -26,7 +26,7 @@ function MainUI:showUI()
         LinearLayout:create(
         {
             width = 1800,
-            height = 100
+            height = 120
         }
     )
     baseInfo:addView(
@@ -62,12 +62,19 @@ function MainUI:showUI()
             )
         )
     end
-
     basePage:addView(baseInfo)
+    local selectFight = RadioGroup:create({
+        id = "selectFight",
+        list = "魔女,通天塔",
+        select = "1",
+        size = 40,
+        orientation = Orientation.HORIZONTAL
+    })
+    basePage:addView(selectFight)
     basePage:addView(
         Label:create(
             {
-                text = " 无需配置，自动刷魔女大师，到金币上限自动停止",
+                text = " 通天塔和魔女大师可选，金币上限自动停止",
                 size = textSize,
                 color = textColor
             }
