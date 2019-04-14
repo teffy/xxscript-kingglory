@@ -54,9 +54,10 @@ mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
 --	 print(k..":"..v)
 --end
 
+-- local test = 1
 local test = nil
 if test then
-    -- mSleep(3000)
+    mSleep(2000)
     return
 end
 

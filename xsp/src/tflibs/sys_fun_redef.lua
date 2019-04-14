@@ -8,26 +8,6 @@
 JSON = require("tflibs.JSON")
 require("config")
 
---@desc 打印数据，兼容 table
---@param 要打印的数据
---@param oldFun 老的打印方法
--- function newprint(data, oldFun)
---     local datatype = type(data)
---     if datatype == 'table' then
---         oldFun(JSON:encode(data))
---     elseif datatype == 'boolean' then
---         if data then
---             oldFun('true')
---         else
---             oldFun('false')
---         end
---     elseif datatype == 'nil' then
---         oldFun('data is nil')
---     else
---         oldFun(data)
---     end
--- end
-
 --@desc 将数据转换为 string
 --@param 要打印的数据
 function get_data_str(data)
@@ -80,4 +60,24 @@ getScreenSize = function()
 		deviceW = deviceW - deviceH
     end
     return deviceW, deviceH
+end
+
+-- hook find colors show 选取范围
+oldfindColors = findColors
+findColors = function(range, color0, degree, hdir, vdir, priority)
+    if FOR_TEST then
+        local hud_id = createHUD()
+        local l = range[1]
+        local t = range[2]
+        local w = range[3] - range[1]
+        local h = range[4] - range[2]
+        print('findColors range:',range[1],',',range[2],',',range[3],',',range[4])
+        print('findColors color0:',color0)
+        print('l:',l,',t:',t,',w:',w,',h:',h)
+        showHUD(hud_id, "", 1, "0xff000000", "red_frame.png", 0, l ,t, w, h)
+        mSleep(2000)
+        hideHUD(hud_id)
+        mSleep(500)
+    end
+    return oldfindColors(range, color0, degree, hdir, vdir, priority)
 end

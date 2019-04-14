@@ -1,4 +1,4 @@
-VERSION='0.0.14'
+VERSION='0.0.19'
 -- debug?打印log
 DEBUG=true
 -- 给用户测试,显示点击坐标红点
