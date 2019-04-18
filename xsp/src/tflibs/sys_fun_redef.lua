@@ -65,7 +65,7 @@ end
 -- hook find colors show 选取范围
 oldfindColors = findColors
 findColors = function(range, color0, degree, hdir, vdir, priority)
-    if FOR_TEST then
+    if FOR_TEST_SHOW_FRAME then
         local hud_id = createHUD()
         local l = range[1]
         local t = range[2]
@@ -75,9 +75,28 @@ findColors = function(range, color0, degree, hdir, vdir, priority)
         print('findColors color0:',color0)
         print('l:',l,',t:',t,',w:',w,',h:',h)
         showHUD(hud_id, "", 1, "0xff000000", "red_frame.png", 0, l ,t, w, h)
-        mSleep(2000)
+        mSleep(RED_TIPFLAG_SHOW_TIME)
         hideHUD(hud_id)
-        mSleep(500)
+        mSleep(RED_TIPFLAG_SHOW_TIME)
     end
     return oldfindColors(range, color0, degree, hdir, vdir, priority)
+end
+
+oldfindColor = findColor
+findColor = function(range, color0, degree, hdir, vdir, priority)
+    if FOR_TEST_SHOW_FRAME then
+        local hud_id = createHUD()
+        local l = range[1]
+        local t = range[2]
+        local w = range[3] - range[1]
+        local h = range[4] - range[2]
+        print('findColor range:',range[1],',',range[2],',',range[3],',',range[4])
+        print('findColor color0:',color0)
+        print('l:',l,',t:',t,',w:',w,',h:',h)
+        showHUD(hud_id, "", 1, "0xff000000", "red_frame.png", 0, l ,t, w, h)
+        mSleep(RED_TIPFLAG_SHOW_TIME)
+        hideHUD(hud_id)
+        mSleep(RED_TIPFLAG_SHOW_TIME)
+    end
+    return oldfindColor(range, color0, degree, hdir, vdir, priority)
 end

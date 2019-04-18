@@ -449,20 +449,19 @@ WebView = {
 
 function WebView:create(options)
   checkOptions(options)
-  return createView(options)
+  return createView(options,WebView)
 end
 
 -- Line
-
 Line = {
   id = "LineID",
   type = "Line",
   color = "0,0,0",
   width = 600,
-  height = 400
+  height = 4
 }
 
 function Line:create(options)
   checkOptions(options)
-  return createView(options)
+  return createView(options,Line)
 end

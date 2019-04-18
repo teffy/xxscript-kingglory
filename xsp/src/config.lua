@@ -1,9 +1,14 @@
 VERSION='0.0.19'
 -- debug?打印log
-DEBUG=true
+DEBUG=false
 -- 给用户测试,显示点击坐标红点
-FOR_TEST=true
-RED_POINT_SHOW_TIME=30
+FOR_TEST_SHOW_POINT=false
+-- 给用户测试,显示点击找色范围
+FOR_TEST_SHOW_FRAME=false
+-- 给用户测试
+FOR_TEST=false
+-- 点击坐标点和找色范围显示时长
+RED_TIPFLAG_SHOW_TIME=1000
 IS_FREE=true
 
 APP_PACKAGE_NAME = 'com.tencent.tmgp.sgame'
@@ -28,3 +33,4 @@ APP_PACKAGE_NAME = 'com.tencent.tmgp.sgame'
 
 -- 魔女，1、判断自动，2、2次跳过
 -- 通天塔，1、跳过，2、判断自动，3、跳过
+-- 刺秦之地，1、黄色跳过

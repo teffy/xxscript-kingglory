@@ -4,7 +4,6 @@
 --@github https://github.com/teffy/xxscript-kingglory
 ------------------------------------------------------------
 
-
 require("tflibs.util")
 require("tflibs.XXUI")
 require("config")
@@ -18,19 +17,10 @@ function GuideUI:showUI()
             width = 1800,
             height = 1200,
             okname = "调整好了",
-            cancelname = "嘤嘤嘤"
+            cancelname = "嘤嘤嘤",
+            countdown = 5
         }
     )
-    local smallElf =
-        Label:create(
-        {
-            text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
-            size = textSize,
-            color = textColor
-        }
-    )
-    smallElf:addExtra("http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk", "下载小精灵版本，脚本更新更及时🚀，点我下载")
-    rootview:addView(smallElf)
     local guideInfo =
         LinearLayout:create(
         {

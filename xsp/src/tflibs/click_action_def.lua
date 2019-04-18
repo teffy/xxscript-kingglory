@@ -41,7 +41,7 @@ define.click {
 		local sleepAfter = (config and config.sleepAfter) or defaultSleepTime
 		local hud_id
 		for i = 1, clickCount do
-			if FOR_TEST then
+			if FOR_TEST_SHOW_POINT then
 				hud_id = createHUD()
 			end
 			x = x + math.random(-2, 2)
@@ -58,9 +58,9 @@ define.click {
 			if y >= deviceW then
 				y = deviceH - 5
 			end
-			if FOR_TEST then
+			if FOR_TEST_SHOW_POINT then
 				showHUD(hud_id, "", 1, "0xff000000", "red_point.png", 0, x - 15, y - 30, 30, 30)
-				mSleep(RED_POINT_SHOW_TIME)
+				mSleep(RED_TIPFLAG_SHOW_TIME)
 			end
 			touchDown(index, x, y)
 			-- local randomX = math.random(-5,5)
@@ -71,9 +71,9 @@ define.click {
 			-- mSleep(math.random(sleepTime+60,sleepTime+80))
 			-- touchUp(index, x + randomX, y + randomY)
 			touchUp(index, x, y)
-			mSleep(sleepAfter + math.random(100, 150))
-			if FOR_TEST then
-				mSleep(RED_POINT_SHOW_TIME)
+			mSleep(sleepAfter + math.random(300, 500))
+			if FOR_TEST_SHOW_POINT then
+				mSleep(RED_TIPFLAG_SHOW_TIME)
 				hideHUD(hud_id)
 			end
 		end

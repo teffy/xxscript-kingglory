@@ -18,7 +18,7 @@ function MainUI:showUI()
             height = 1200,
             okname = "开始脚本",
             cancelname = "休息一下",
-            countdown = 15
+            countdown = 20
         }
     )
     local basePage = Page:create({text = "基础设置"})
@@ -43,7 +43,7 @@ function MainUI:showUI()
         basePage:addView(
             Label:create(
                 {
-                    text = " 测试版本，新进群的不要下载使用，如果是帮群主测试的，请将运行结果反馈给群主",
+                    text = " 测试版本，新进群的不要下载使用，如果是帮群主测试的，请录屏然后把运行结果反馈给群主",
                     size = textSize,
                     color = textColor
                 }
@@ -65,10 +65,9 @@ function MainUI:showUI()
     basePage:addView(baseInfo)
     local selectFight = RadioGroup:create({
         id = "selectFight",
-        list = "魔女,通天塔",
-        select = "1",
-        size = 40,
-        orientation = Orientation.HORIZONTAL
+        list = "魔女,通天塔,刺秦之地",
+        select = "0",
+        size = 40
     })
     basePage:addView(selectFight)
     basePage:addView(

@@ -90,16 +90,19 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
         showHUD(hud_id, hudText, 35, "0xff1E90FF", "0xafffffff", 0, xStart, deviceH - 180, 400, 180)
     end
 
+    math.randomseed(tostring(os.time()):reverse():sub(1, 9))
+    local randomSleepStep = math.random(4,8)
     --开始循环闯关
     while true do
+        math.randomseed(tostring(os.time()):reverse():sub(1, 9))
         fightStartTime = mTime()
 
         -- 先判断是否在战斗准备页面，判断闯关按钮和更改阵容按钮，以防页面切换卡顿
         while true do
             --前3个是挑战成功的条目（任意完成一个），黄色的字，第4个是下面的白色字，前3个或和第四个与
-            fightpreChangeTeam =
+            local fightpreChangeTeam =
                 findColors(rangecolors.fightpre_change_team.range, rangecolors.fightpre_change_team.color, 90, 0, 0, 0)
-            fightpreRushThrough =
+            local fightpreRushThrough =
                 findColors(
                 rangecolors.fightpre_rush_through.range,
                 rangecolors.fightpre_rush_through.color,
@@ -109,6 +112,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                 0
             )
             randomTime = math.random(300, 600)
+			print(type(fightpreChangeTeam))
             if #fightpreChangeTeam ~= 0 and #fightpreRushThrough ~= 0 then
                 sysLog("战斗准备页面")
                 -- TODO 需要等一下，第一次英雄列表加载是异步的,可能会导致进去检测到英雄没选全
@@ -160,6 +164,14 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                     )
                 else
                     sysLog("选够3个英雄")
+                    if fightCount ~= 0 and fightCount % randomSleepStep == 0 then
+                        local sleepTime = math.random(randomSleepStep * 3000,randomSleepStep * 5000)
+                        print('step:',randomSleepStep,'休息一下：',sleepTime)
+                        _showHUD('休息一下：'..sleepTime..'秒')
+                        mSleep(sleepTime)
+                        randomSleepStep = math.random(4,8)
+                    end
+                    print(randomSleepStep)
                     --点击闯关
                     click(points.fightpre_rush_through)
                 end
@@ -172,7 +184,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
         if loadingTime == 0 then
             loadingTimeStart = mTime()
         else
-            mSleep(loadingTime)
+            mSleep(loadingTime * 4 / 5)
         end
 
         fightProcessFunc()
@@ -183,9 +195,8 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
         --失败，点击页面上的返回到挑战选关卡页面了，点击下一步
         local fightSuccess = true
         while true do
-            math.randomseed(tostring(os.time()):reverse():sub(1, 7))
             --前1个是挑战成功的条目（任意完成一个），黄色的字，第2个是下面的白色字，前1个或和第2个与
-            successYellowText =
+            local successYellowText =
                 findColors(
                 rangecolors.fight_success_check_yellow_text.range,
                 rangecolors.fight_success_check_yellow_text.color,
@@ -194,7 +205,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                 0,
                 0
             )
-            successWhiteText =
+            local successWhiteText =
                 findColors(
                 rangecolors.fight_success_check_white_text.range,
                 rangecolors.fight_success_check_white_text.color,
@@ -208,7 +219,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                 fightSuccess = true
                 break
             else
-                failedWhiteTextUp =
+                local failedWhiteTextUp =
                     findColors(
                     rangecolors.fight_failed_check_white_text_up.range,
                     rangecolors.fight_failed_check_white_text_up.color,
@@ -217,7 +228,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                     0,
                     0
                 )
-                failedWhiteTextDown =
+                local failedWhiteTextDown =
                     findColors(
                     rangecolors.fight_failed_check_white_text_down.range,
                     rangecolors.fight_failed_check_white_text_down.color,
@@ -241,7 +252,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
             randomClick(deviceW, deviceH)
             --先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
             while true do
-                resultSuccessBack =
+                local resultSuccessBack =
                     findColors(
                     rangecolors.fight_success_gold_back.range,
                     rangecolors.fight_success_gold_back.color,
@@ -250,7 +261,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                     0,
                     0
                 )
-                resultSuccessFightAgain =
+                local resultSuccessFightAgain =
                     findColors(
                     rangecolors.fight_success_gold_fight_again.range,
                     rangecolors.fight_success_gold_fight_again.color,
@@ -305,7 +316,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
             click(points.fight_failed_back)
             --失败，退回到选择关卡页面，先判断上下按钮在不在，点击下一步
             while true do
-                upBtnPoint =
+                local upBtnPoint =
                     findColors(
                     rangecolors.fightpre_select_level_up.range,
                     rangecolors.fightpre_select_level_up.color,
@@ -314,7 +325,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                     0,
                     0
                 )
-                downBtnPoint =
+                local downBtnPoint =
                     findColors(
                     rangecolors.fightpre_select_level_down.range,
                     rangecolors.fightpre_select_level_down.color,
