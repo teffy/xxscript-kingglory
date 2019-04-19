@@ -40,31 +40,30 @@ function showDownloadUI(url)
 end
 
 function CheckDownload:checkDownload()
-    -- 1-叉叉/免root叉叉；
-    -- 2-内部使用；
-    -- 3-开发助手；
-    -- 4-内部使用；
-    -- 5-叉叉IPA精灵；
-    -- 6-叉叉小精灵；
-    -- 7-叉叉酷玩；
-    -- 8-叉叉云游
-    product_id = getProduct()
-    if product_id ~= nil then
-        sysLog("product_id=" .. product_id)
-        if product_id ~= 6 then
-            -- DOWNLOAD_SMALL_APK 是否下载小精灵版本
-            local content, err = getCloudContent("DOWNLOAD_SMALL_APK", "32670523E7000928", "null")
-            if err == 0 then
-                if content == "true" then
-                    local content, err = getCloudContent("SMALL_APK_URL", "32670523E7000928", "null")
-                    if err == 0 and content ~= "null" then
-                        showDownloadUI(content)
+    if isAndroid and smallApkUrl then
+        -- 1-叉叉/免root叉叉；
+        -- 2-内部使用；
+        -- 3-开发助手；
+        -- 4-内部使用；
+        -- 5-叉叉IPA精灵；
+        -- 6-叉叉小精灵；
+        -- 7-叉叉酷玩；
+        -- 8-叉叉云游
+        product_id = getProduct()
+        if product_id ~= nil then
+            sysLog("product_id=" .. product_id)
+            if product_id ~= 6 then
+                -- DOWNLOAD_SMALL_APK 是否下载小精灵版本
+                local content, err = getCloudContent("DOWNLOAD_SMALL_APK", "32670523E7000928", "null")
+                if err == 0 then
+                    if content == "true" then
+                        showDownloadUI(smallApkUrl)
                     end
+                elseif err == 1 then
+                    sysLog("网络错误")
+                elseif err == 999 then
+                    sysLog("未知错误")
                 end
-            elseif err == 1 then
-                dialog("网络错误")
-            elseif err == 999 then
-                dialog("未知错误")
             end
         end
     end

@@ -1,15 +1,17 @@
-VERSION='0.0.19'
+VERSION='0.0.20'
 -- debug?打印log
-DEBUG=false
+T = true
+F = false
+DEBUG=F
 -- 给用户测试,显示点击坐标红点
-FOR_TEST_SHOW_POINT=false
+FOR_TEST_SHOW_POINT=DEBUG
 -- 给用户测试,显示点击找色范围
-FOR_TEST_SHOW_FRAME=false
+FOR_TEST_SHOW_FRAME=DEBUG
 -- 给用户测试
-FOR_TEST=false
+FOR_TEST=DEBUG
 -- 点击坐标点和找色范围显示时长
 RED_TIPFLAG_SHOW_TIME=1000
-IS_FREE=true
+IS_FREE=DEBUG
 
 APP_PACKAGE_NAME = 'com.tencent.tmgp.sgame'
 

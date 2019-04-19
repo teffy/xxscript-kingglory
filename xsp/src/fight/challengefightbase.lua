@@ -92,6 +92,8 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
 
     math.randomseed(tostring(os.time()):reverse():sub(1, 9))
     local randomSleepStep = math.random(4,8)
+    randomSleepStep = 1
+    print('randomSleep:',randomSleep,',randomSleepStep:',randomSleepStep)
     --开始循环闯关
     while true do
         math.randomseed(tostring(os.time()):reverse():sub(1, 9))
@@ -164,14 +166,14 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                     )
                 else
                     sysLog("选够3个英雄")
-                    if fightCount ~= 0 and fightCount % randomSleepStep == 0 then
+                    if randomSleep and fightCount ~= 0 and fightCount % randomSleepStep == 0 then
                         local sleepTime = math.random(randomSleepStep * 3000,randomSleepStep * 5000)
                         print('step:',randomSleepStep,'休息一下：',sleepTime)
                         _showHUD('休息一下：'..sleepTime..'秒')
                         mSleep(sleepTime)
                         randomSleepStep = math.random(4,8)
+                        print(randomSleepStep)
                     end
-                    print(randomSleepStep)
                     --点击闯关
                     click(points.fightpre_rush_through)
                 end

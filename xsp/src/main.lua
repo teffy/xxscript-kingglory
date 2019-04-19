@@ -6,12 +6,36 @@
 
 require("init")
 
+isAndroid = true
+isIOS = false
+smallApkUrl = nil
+
+local osType = getOSType()
+if osType == "android" then
+    sysLog("安卓系统")
+    isAndroid = true
+    isIOS = false
+elseif osType == "iOS" then
+    sysLog("苹果系统")
+    isAndroid = false
+    isIOS = true
+end
+
+if isAndroid then
+    local content, err = getCloudContent("SMALL_APK_URL", "32670523E7000928", "null")
+    if err == 0 and content ~= "null" then
+        smallApkUrl = content
+    end
+end
+
 require("ui.mainui")
 local ret, result = MainUI:showUI()
 local autoStopStr = result.autoStop
 local autoCloseGameStr = result.autoCloseGame
+local randomSleepStr = result.randomSleep
 autoStop = (autoStopStr == "0")
 autoCloseGame = (autoCloseGameStr == "0")
+randomSleep = (randomSleepStr == "0")
 userClick = ret
 local selectFight = result.selectFight
 if ret == 1 then
@@ -28,7 +52,7 @@ CheckDownload:checkDownload()
 
 local isRightScreenDirection = true
 local screenD = getScreenDirection()
-local osType = getOSType()
+
 sysLog("screenDirection:" .. screenD .. ",osType:" .. osType)
 if screenD ~= 1 then
     require("ui.guideui")

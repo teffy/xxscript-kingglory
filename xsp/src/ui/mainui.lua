@@ -15,7 +15,7 @@ function MainUI:showUI()
         RootView:create(
         {
             width = 1800,
-            height = 1200,
+            height = 1600,
             okname = "开始脚本",
             cancelname = "休息一下",
             countdown = 20
@@ -32,7 +32,7 @@ function MainUI:showUI()
     baseInfo:addView(
         Label:create(
             {
-                text = "❤️天非❤️⚔️️王者️自动刷金⚔️️",
+                text = "❤️天非❤️⚔️️金手指⚔️️",
                 width = 700,
                 size = textSize,
                 color = textColor
@@ -67,31 +67,34 @@ function MainUI:showUI()
         id = "selectFight",
         list = "魔女,通天塔,刺秦之地",
         select = "0",
-        size = 40
+        size = 40,
+        orientation = Orientation.HORIZONTAL
     })
     basePage:addView(selectFight)
     basePage:addView(
         Label:create(
             {
-                text = " 通天塔和魔女大师可选，金币上限自动停止",
+                text = " 魔女、通天塔、刺秦之地大师可选，金币上限自动停止",
                 size = textSize,
                 color = textColor
             }
         )
     )
-    local smallElf =
-        Label:create(
-        {
-            text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
-            size = textSize,
-            color = textColor
-        }
-    )
-    smallElf:addExtra(
-        "http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk",
-        "下载小精灵版本，脚本更新更及时🚀，点我下载"
-    )
-    basePage:addView(smallElf)
+    if isAndroid and smallApkUrl then
+        local smallElf =
+            Label:create(
+            {
+                text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
+                size = textSize,
+                color = textColor
+            }
+        )
+        smallElf:addExtra(
+            smallApkUrl,
+            "下载小精灵版本，脚本更新更及时🚀，点我下载"
+        )
+        basePage:addView(smallElf)
+    end
     basePage:addView(
         CheckBoxGroup:create(
             {
@@ -102,11 +105,17 @@ function MainUI:showUI()
             }
         )
     )
-
+    basePage:addView(
+        CheckBoxGroup:create(
+            {
+                id = "randomSleep",
+                width = 400,
+                list = "随机休眠（部分用户有被封过建议开启）"
+            }
+        )
+    )
     local autoCloseGameList = "到金币上限自动关闭游戏"
-    local osType = getOSType()
-    local isiOS = (osType == "iOS")
-    if isiOS then 
+    if isIOS then 
         autoCloseGameList = autoCloseGameList.."并锁屏"
     end
     basePage:addView(
