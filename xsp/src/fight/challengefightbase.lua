@@ -38,7 +38,7 @@ function basefight:clickAuto()
 end
 
 function basefight:saveLoadingTime(loadingtime_key)
-    print('saveLoadingTime:',loadingTime)
+    print("saveLoadingTime:", loadingTime)
     if loadingTime == 0 then -- 记录loading时间数据，上面再次到加载过程中到就sleep
         loadingTimeEnd = mTime()
         loadingTime = loadingTimeEnd - loadingTimeStart
@@ -46,16 +46,19 @@ function basefight:saveLoadingTime(loadingtime_key)
     end
 end
 
-
 loadingTime, loadingTimeStart, loadingTimeEnd = 0, 0, 0
 
 --@desc 挑战过程封装
 --@param goldPerFight 一局挑战的金币
 --@param loadingtime_key loading时长
---@param defaultSleepTime 默认休眠时长
 --@param selectLevelFunc 选择关卡方法
 --@param fightProcessFunc 挑战过程中，需要判断是否在战斗中的，然后保存loadingtime_key
-function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, selectLevelFunc, fightProcessFunc)
+function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightProcessFunc)
+    defaultSleepTime = 500
+    if randomSleep then
+        defaultSleepTime = 1000
+    end
+
     local fightCount, fightAllTime, averageTime, goldCount = 0, 0, 0, 0
     local fightStartTime, fightEndTime = 0, 0
     local goldLimit = false
@@ -66,7 +69,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
     --冒险之旅-第三个
     click(points.risk_select_mode2_3, {sleepAfter = defaultSleepTime})
 
-    selectLevelFunc()
+    selectLevelFunc(defaultSleepTime)
 
     --顺序点击普通，精英，大师，这样可以选到最大级别2
     --TODO  是否需要这样？？？是否可以检测是否有大师级别
@@ -75,7 +78,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
     click(points.fightpre_level_mode_3, {sleepAfter = 200})
 
     --下一步
-    click(points.fightpre_select_level_next, {sleepAfter = 200})
+    click(points.fightpre_select_level_next, {sleepAfter = defaultSleepTime})
 
     loadingTime = getNumberConfig(loadingtime_key, 0)
 
@@ -91,9 +94,9 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
     end
 
     math.randomseed(tostring(os.time()):reverse():sub(1, 9))
-    local randomSleepStep = math.random(4,8)
+    local randomSleepStep = math.random(4, 8)
     randomSleepStep = 1
-    print('randomSleep:',randomSleep,',randomSleepStep:',randomSleepStep)
+    print("randomSleep:", randomSleep, ",randomSleepStep:", randomSleepStep)
     --开始循环闯关
     while true do
         math.randomseed(tostring(os.time()):reverse():sub(1, 9))
@@ -114,7 +117,7 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                 0
             )
             randomTime = math.random(300, 600)
-			print(type(fightpreChangeTeam))
+            print(type(fightpreChangeTeam))
             if #fightpreChangeTeam ~= 0 and #fightpreRushThrough ~= 0 then
                 sysLog("战斗准备页面")
                 -- TODO 需要等一下，第一次英雄列表加载是异步的,可能会导致进去检测到英雄没选全
@@ -167,11 +170,11 @@ function basefight:fight(goldPerFight, loadingtime_key, defaultSleepTime, select
                 else
                     sysLog("选够3个英雄")
                     if randomSleep and fightCount ~= 0 and fightCount % randomSleepStep == 0 then
-                        local sleepTime = math.random(randomSleepStep * 3000,randomSleepStep * 5000)
-                        print('step:',randomSleepStep,'休息一下：',sleepTime)
-                        _showHUD('休息一下：'..sleepTime..'秒')
+                        local sleepTime = math.random(randomSleepStep * 3000, randomSleepStep * 5000)
+                        print("step:", randomSleepStep, "休息一下：", sleepTime)
+                        _showHUD("休息一下：" .. sleepTime .. "秒")
                         mSleep(sleepTime)
-                        randomSleepStep = math.random(4,8)
+                        randomSleepStep = math.random(4, 8)
                         print(randomSleepStep)
                     end
                     --点击闯关

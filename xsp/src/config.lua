@@ -2,7 +2,7 @@ VERSION='0.0.20'
 -- debug?打印log
 T = true
 F = false
-DEBUG=F
+DEBUG=T
 -- 给用户测试,显示点击坐标红点
 FOR_TEST_SHOW_POINT=DEBUG
 -- 给用户测试,显示点击找色范围

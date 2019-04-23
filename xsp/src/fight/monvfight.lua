@@ -13,12 +13,14 @@ require("fight.challengefightbase")
 monv = {}
 function monv:fight()
     local goldPerFight = 19
-    local defaultSleepTime = 500
     local loadingtime_key = "monv_loadingTime"
 
     local function selectLevelFunc()
-        click(points.fightpre_select_level_up, {sleepTime = math.random(80), clickCount = 3})
-        click(points.fightpre_select_level_3, {sleepTime = 200})
+        click(
+            points.fightpre_select_level_up,
+            {sleepTime = math.random(50, 80), clickCount = 3, sleepAfter = defaultSleepTime / 2}
+        )
+        click(points.fightpre_select_level_3, {sleepTime = math.random(50, 80), sleepAfter = defaultSleepTime})
     end
 
     local function fightProcessFunc()
@@ -44,5 +46,5 @@ function monv:fight()
         )
     end
 
-    basefight:fight(goldPerFight,loadingtime_key,defaultSleepTime,selectLevelFunc,fightProcessFunc)
+    basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightProcessFunc)
 end
