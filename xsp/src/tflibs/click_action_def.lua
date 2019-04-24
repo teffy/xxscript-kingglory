@@ -15,7 +15,7 @@ elseif osType == "android" then
 	if rootMode == 0 then
 		defaultSleepTime = 500
 	elseif rootMode == 1 then
-		--defaultSleepTime = 40
+	--defaultSleepTime = 40
 	end
 end
 
@@ -142,7 +142,6 @@ define.findThen {
 	"function",
 	function(posRange, posColor, similarity, thenFn, timeOut, timeOutFn)
 		sysLog("posRange:", posRange, ",posColor:", posColor)
-		--		keepScreen(true)
 		local mStart = mTime()
 		local mEnd = 0
 		while true do
@@ -161,7 +160,6 @@ define.findThen {
 				end
 			end
 		end
-		--		keepScreen(false)
 	end
 }
 
@@ -185,13 +183,41 @@ define.findThen {
 
 define.findThenArray {
 	"table",
-	"string",
 	"function",
-	function(posRange, posColor, thenFn)
-		findThen(
-			posRange,
-			posColor,
-			95,
+	"number",
+	"function",
+	function(rangeColors, thenFn, timeOut, timeOutFn)
+		local mStart = mTime()
+		local mEnd = 0
+		while true do
+			local results = {}
+			for i = 1, #rangeColors do
+				local item = rangeColors[i]
+				local itemResult = findColors(item.range, item.color, item.degree, item.hdir, item.vdir, item.priority)
+				print('itemResult',itemResult)
+				table.insert(results, itemResult)
+			end
+			if thenFn(results) then
+				break
+			end
+			if timeOutFn and timeOut > 0 then
+				mEnd = mTime()
+				if mEnd - mStart > timeOut then
+					if timeOutFn() then
+						break
+					end
+				end
+			end
+		end
+	end
+}
+
+define.findThenArray {
+	"table",
+	"function",
+	function(rangeColors, thenFn)
+		findThenArray(
+			rangeColors,
 			thenFn,
 			0,
 			function()

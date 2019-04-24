@@ -69,6 +69,7 @@ mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
 local test = nil
 if test then
     mSleep(2000)
+
     return
 end
 

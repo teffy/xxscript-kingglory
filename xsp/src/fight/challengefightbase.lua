@@ -54,10 +54,7 @@ loadingTime, loadingTimeStart, loadingTimeEnd = 0, 0, 0
 --@param selectLevelFunc 选择关卡方法
 --@param fightProcessFunc 挑战过程中，需要判断是否在战斗中的，然后保存loadingtime_key
 function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightProcessFunc)
-    defaultSleepTime = 500
-    if randomSleep then
-        defaultSleepTime = 1000
-    end
+    defaultSleepTime = 1500
 
     local fightCount, fightAllTime, averageTime, goldCount = 0, 0, 0, 0
     local fightStartTime, fightEndTime = 0, 0
@@ -95,7 +92,6 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
 
     math.randomseed(tostring(os.time()):reverse():sub(1, 9))
     local randomSleepStep = math.random(4, 8)
-    randomSleepStep = 1
     print("randomSleep:", randomSleep, ",randomSleepStep:", randomSleepStep)
     --开始循环闯关
     while true do
@@ -103,31 +99,45 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         fightStartTime = mTime()
 
         -- 先判断是否在战斗准备页面，判断闯关按钮和更改阵容按钮，以防页面切换卡顿
-        while true do
-            --前3个是挑战成功的条目（任意完成一个），黄色的字，第4个是下面的白色字，前3个或和第四个与
-            local fightpreChangeTeam =
-                findColors(rangecolors.fightpre_change_team.range, rangecolors.fightpre_change_team.color, 90, 0, 0, 0)
-            local fightpreRushThrough =
-                findColors(
-                rangecolors.fightpre_rush_through.range,
-                rangecolors.fightpre_rush_through.color,
-                90,
-                0,
-                0,
-                0
-            )
-            randomTime = math.random(300, 600)
-            print(type(fightpreChangeTeam))
-            if #fightpreChangeTeam ~= 0 and #fightpreRushThrough ~= 0 then
-                sysLog("战斗准备页面")
-                -- TODO 需要等一下，第一次英雄列表加载是异步的,可能会导致进去检测到英雄没选全
+        findThenArray(
+            {
+                {
+                    range = rangecolors.fightpre_change_team.range,
+                    color = rangecolors.fightpre_change_team.color,
+                    degree = 90,
+                    hdir = 0,
+                    vdir = 0,
+                    priority = 0
+                },
+                {
+                    range = rangecolors.fightpre_rush_through.range,
+                    color = rangecolors.fightpre_rush_through.color,
+                    degree = 90,
+                    hdir = 0,
+                    vdir = 0,
+                    priority = 0
+                }
+            },
+            function(results)
+                local isAll = true
+                for i = 1, #results do
+                    local item = results[i]
+                    if #item <= 0 then
+                        isAll = false
+                    end
+                end
+                randomTime = math.random(300, 600)
+                print(type(fightpreChangeTeam))
+                if isAll then
+                    sysLog("战斗准备页面")
+                else
+                    sysLog("不在战斗准备页面")
+                end
+                -- 需要等一下，第一次英雄列表加载是异步的,可能会导致进去检测到英雄没选全
                 mSleep(randomTime)
-                break
-            else
-                sysLog("不在战斗准备页面，sleep ", randomTime)
-                mSleep(randomTime)
+                return isAll
             end
-        end
+        )
 
         --判断是否选够英雄
         --如果选够，直接点击闯关
@@ -199,56 +209,77 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         --成功，随便点击一个点，然后开始检查是否有白字（金币上限），然后点击再次挑战，从头循环
         --失败，点击页面上的返回到挑战选关卡页面了，点击下一步
         local fightSuccess = true
-        while true do
-            --前1个是挑战成功的条目（任意完成一个），黄色的字，第2个是下面的白色字，前1个或和第2个与
-            local successYellowText =
-                findColors(
-                rangecolors.fight_success_check_yellow_text.range,
-                rangecolors.fight_success_check_yellow_text.color,
-                95,
-                0,
-                0,
-                0
-            )
-            local successWhiteText =
-                findColors(
-                rangecolors.fight_success_check_white_text.range,
-                rangecolors.fight_success_check_white_text.color,
-                95,
-                0,
-                0,
-                0
-            )
-            if #successYellowText ~= 0 and #successWhiteText ~= 0 then
-                sysLog("成功结果页面")
-                fightSuccess = true
-                break
-            else
-                local failedWhiteTextUp =
-                    findColors(
-                    rangecolors.fight_failed_check_white_text_up.range,
-                    rangecolors.fight_failed_check_white_text_up.color,
-                    95,
-                    0,
-                    0,
-                    0
-                )
-                local failedWhiteTextDown =
-                    findColors(
-                    rangecolors.fight_failed_check_white_text_down.range,
-                    rangecolors.fight_failed_check_white_text_down.color,
-                    95,
-                    0,
-                    0,
-                    0
-                )
-                if #failedWhiteTextUp ~= 0 and #failedWhiteTextDown ~= 0 then
-                    sysLog("失败结果页面")
-                    fightSuccess = false
-                    break
+        findThenArray(
+            {
+                {
+                    range = rangecolors.fight_success_check_yellow_text.range,
+                    color = rangecolors.fight_success_check_yellow_text.color,
+                    degree = 90,
+                    hdir = 0,
+                    vdir = 0,
+                    priority = 0
+                },
+                {
+                    range = rangecolors.fight_success_check_white_text.range,
+                    color = rangecolors.fight_success_check_white_text.color,
+                    degree = 90,
+                    hdir = 0,
+                    vdir = 0,
+                    priority = 0
+                }
+            },
+            function(results)
+                local isAll = true
+                for i = 1, #results do
+                    local item = results[i]
+                    if #item <= 0 then
+                        isAll = false
+                    end
                 end
+
+                if isAll then
+                    sysLog("成功结果页面")
+                    fightSuccess = true
+                else
+                    findThenArray(
+                        {
+                            {
+                                range = rangecolors.fight_failed_check_white_text_up.range,
+                                color = rangecolors.fight_failed_check_white_text_up.color,
+                                degree = 90,
+                                hdir = 0,
+                                vdir = 0,
+                                priority = 0
+                            },
+                            {
+                                range = rangecolors.fight_failed_check_white_text_down.range,
+                                color = rangecolors.fight_failed_check_white_text_down.color,
+                                degree = 90,
+                                hdir = 0,
+                                vdir = 0,
+                                priority = 0
+                            }
+                        },
+                        function(results)
+                            local isAll = true
+                            for i = 1, #results do
+                                local item = results[i]
+                                if #item <= 0 then
+                                    isAll = false
+                                end
+                            end
+
+                            if isAll then
+                                sysLog("失败结果页面")
+                                fightSuccess = false
+                            end
+                            return isAll
+                        end
+                    )
+                end
+                return isAll
             end
-        end
+        )
 
         mSleep(2000)
         sysLog("fightSuccess:", fightSuccess)
@@ -256,97 +287,117 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
             --随机点击一个点跳过
             randomClick(deviceW, deviceH)
             --先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
-            while true do
-                local resultSuccessBack =
-                    findColors(
-                    rangecolors.fight_success_gold_back.range,
-                    rangecolors.fight_success_gold_back.color,
-                    90,
-                    0,
-                    0,
-                    0
-                )
-                local resultSuccessFightAgain =
-                    findColors(
-                    rangecolors.fight_success_gold_fight_again.range,
-                    rangecolors.fight_success_gold_fight_again.color,
-                    90,
-                    0,
-                    0,
-                    0
-                )
-                if #resultSuccessBack ~= 0 and #resultSuccessFightAgain ~= 0 then
-                    findThen(
-                        rangecolors.fight_success_gold_limit.range,
-                        rangecolors.fight_success_gold_limit.color,
-                        function(x, y)
-                            if x > -1 then
-                                goldLimit = true
-                                sysLog("金币上限")
-                                if autoStop then
-                                    --金币上限，退出脚本
-                                    fightEndTime = mTime()
-                                    fightAllTime = fightAllTime + (fightEndTime - fightStartTime)
-                                    fightCount = fightCount + 1
-                                    averageTime = fightAllTime / fightCount
-                                    FinishUI:showUIOnTaskFinish(
-                                        {
-                                            fightAllTime = fightAllTime,
-                                            goldCount = goldCount,
-                                            averageTime = averageTime
-                                        },
-                                        goldLimit
-                                    )
-                                    hideHUD(hud_id)
-                                    return true
+
+            findThenArray(
+                {
+                    {
+                        range = rangecolors.fight_success_gold_back.range,
+                        color = rangecolors.fight_success_gold_back.color,
+                        degree = 90,
+                        hdir = 0,
+                        vdir = 0,
+                        priority = 0
+                    },
+                    {
+                        range = rangecolors.fight_success_gold_fight_again.range,
+                        color = rangecolors.fight_success_gold_fight_again.color,
+                        degree = 90,
+                        hdir = 0,
+                        vdir = 0,
+                        priority = 0
+                    }
+                },
+                function(results)
+                    local isAll = true
+                    for i = 1, #results do
+                        local item = results[i]
+                        if #item <= 0 then
+                            isAll = false
+                        end
+                    end
+
+                    if isAll then
+                        findThen(
+                            rangecolors.fight_success_gold_limit.range,
+                            rangecolors.fight_success_gold_limit.color,
+                            function(x, y)
+                                if x > -1 then
+                                    goldLimit = true
+                                    sysLog("金币上限")
+                                    if autoStop then
+                                        --金币上限，退出脚本
+                                        fightEndTime = mTime()
+                                        fightAllTime = fightAllTime + (fightEndTime - fightStartTime)
+                                        fightCount = fightCount + 1
+                                        averageTime = fightAllTime / fightCount
+                                        FinishUI:showUIOnTaskFinish(
+                                            {
+                                                fightAllTime = fightAllTime,
+                                                goldCount = goldCount,
+                                                averageTime = averageTime
+                                            },
+                                            goldLimit
+                                        )
+                                        hideHUD(hud_id)
+                                        return true
+                                    else
+                                        sysLog("金币上限，继续刷经验")
+                                        click(points.fight_success_fight_again)
+                                        return true
+                                    end
                                 else
-                                    sysLog("金币上限，继续刷经验")
+                                    --金币还没上限，再次挑战  challengeAgain
+                                    sysLog("金币不到上限，再次挑战")
                                     click(points.fight_success_fight_again)
                                     return true
                                 end
-                            else
-                                --金币还没上限，再次挑战  challengeAgain
-                                sysLog("金币不到上限，再次挑战")
-                                click(points.fight_success_fight_again)
-                                return true
                             end
-                        end
-                    )
-                    break
-                else
-                    randomClick(deviceW, deviceH)
+                        )
+                    else
+                        randomClick(deviceW, deviceH)
+                    end
+                    return isAll
                 end
-            end
+            )
         else
             click(points.fight_failed_back)
             --失败，退回到选择关卡页面，先判断上下按钮在不在，点击下一步
-            while true do
-                local upBtnPoint =
-                    findColors(
-                    rangecolors.fightpre_select_level_up.range,
-                    rangecolors.fightpre_select_level_up.color,
-                    90,
-                    0,
-                    0,
-                    0
-                )
-                local downBtnPoint =
-                    findColors(
-                    rangecolors.fightpre_select_level_down.range,
-                    rangecolors.fightpre_select_level_down.color,
-                    90,
-                    0,
-                    0,
-                    0
-                )
-                if #upBtnPoint ~= 0 and #downBtnPoint ~= 0 then
-                    sysLog("失败了，点击下一步")
-                    click(points.fightpre_select_level_next)
-                    break
-                else
-                    click(points.fight_failed_back)
+            findThenArray(
+                {
+                    {
+                        range = rangecolors.fightpre_select_level_up.range,
+                        color = rangecolors.fightpre_select_level_up.color,
+                        degree = 90,
+                        hdir = 0,
+                        vdir = 0,
+                        priority = 0
+                    },
+                    {
+                        range = rangecolors.fightpre_select_level_down.range,
+                        color = rangecolors.fightpre_select_level_down.color,
+                        degree = 90,
+                        hdir = 0,
+                        vdir = 0,
+                        priority = 0
+                    }
+                },
+                function(results)
+                    local isAll = true
+                    for i = 1, #results do
+                        local item = results[i]
+                        if #item <= 0 then
+                            isAll = false
+                        end
+                    end
+                    if isAll then
+                        sysLog("失败了，点击下一步")
+                        click(points.fightpre_select_level_next)
+                    else
+                        click(points.fight_failed_back)
+                    end
+                    return isAll
                 end
-            end
+            )
         end
 
         fightEndTime = mTime()

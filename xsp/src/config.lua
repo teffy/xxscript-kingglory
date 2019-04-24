@@ -1,4 +1,4 @@
-VERSION='0.0.20'
+VERSION='0.0.22'
 -- debug?打印log
 T = true
 F = false
@@ -32,7 +32,3 @@ APP_PACKAGE_NAME = 'com.tencent.tmgp.sgame'
 -- 7、最简单人机
 -- 8、日常喊话
 -- 9、一键换装
-
--- 魔女，1、判断自动，2、2次跳过
--- 通天塔，1、跳过，2、判断自动，3、跳过
--- 刺秦之地，1、黄色跳过
