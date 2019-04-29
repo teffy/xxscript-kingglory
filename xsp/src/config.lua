@@ -1,8 +1,9 @@
-VERSION='0.0.22'
+VERSION='0.0.24'
 -- debug?打印log
 T = true
 F = false
-DEBUG=T
+DEBUG=F
+WRITELOG=F
 -- 给用户测试,显示点击坐标红点
 FOR_TEST_SHOW_POINT=DEBUG
 -- 给用户测试,显示点击找色范围
@@ -15,6 +16,9 @@ IS_FREE=DEBUG
 
 APP_PACKAGE_NAME = 'com.tencent.tmgp.sgame'
 
+if WRITELOG then 
+    setSysConfig("isLogFile","1")
+end
 --todo list
 --检测当前页面
 --UI 桌面编辑工具直接生成代码

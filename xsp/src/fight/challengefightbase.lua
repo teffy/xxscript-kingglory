@@ -236,11 +236,11 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
                         isAll = false
                     end
                 end
-
                 if isAll then
                     sysLog("成功结果页面")
                     fightSuccess = true
                 else
+                    sysLog("结果页面 else")
                     findThenArray(
                         {
                             {
@@ -273,7 +273,8 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
                                 sysLog("失败结果页面")
                                 fightSuccess = false
                             end
-                            return isAll
+                            -- 这里还需要继续检查，return true跳出失败页面检测，否则会一直卡在失败页面检测里面
+                            return true
                         end
                     )
                 end
@@ -420,5 +421,11 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         )
         hudText = string.format("已进行%d次，平均时长%s，已获得%d金币", fightCount, util:time2Text(averageTime), goldCount)
         _showHUD(hudText)
+
+        local mem1 = collectgarbage("count")
+        print("\bbefore collect memory is ", mem1, "kb")
+        collectgarbage("collect")
+        local mem2 = collectgarbage("count")
+        print("\nafter collect memory is ", mem2, "kb")
     end
 end
