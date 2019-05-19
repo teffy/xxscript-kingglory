@@ -39,7 +39,7 @@ function ciqinzhidi:fight()
         )
 
         basefight:saveLoadingTime(loadingtime_key)
-        basefight:clickAuto()
+        basefight:clickAuto(true)
 
         local skipAfterCount = 0
         findThen(

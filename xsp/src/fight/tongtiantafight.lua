@@ -25,6 +25,7 @@ function tongtianta:fight()
     end
 
     local function fightProcessFunc()
+        basefight:saveLoadingTime(loadingtime_key)
         -- 上来点击一次
         findThen(
             rangecolors.fighting_is_skip_showing.range,
@@ -37,9 +38,16 @@ function tongtianta:fight()
                 end
             end
         )
-
-        basefight:saveLoadingTime(loadingtime_key)
-        basefight:clickAuto()
+        if IS_VIP then
+            mSleep(200)
+            move(points.move_round_center,{
+                util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,245,4000),
+                util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,222,3000),
+                util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,240,8500),
+                util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,250,9000),
+            })
+        end
+        basefight:clickAuto(true)
 
         findThen(
             rangecolors.fighting_is_skip_showing.range,

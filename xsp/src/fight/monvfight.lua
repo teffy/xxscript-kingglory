@@ -25,7 +25,7 @@ function monv:fight()
 
     local function fightProcessFunc()
         -- 直接利用 clickAuto 判断是否在战斗中
-        basefight:clickAuto()
+        basefight:clickAuto(true)
         basefight:saveLoadingTime(loadingtime_key)
         --点击2次跳过
         local clickNextCount = 0

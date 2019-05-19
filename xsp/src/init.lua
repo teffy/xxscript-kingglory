@@ -5,6 +5,7 @@
 ------------------------------------------------------------
 
 require("config")
+require('tflibs.util')
 require('tflibs.sys_fun_redef')
 require("tflibs.fun_overload_def")
 require("tflibs.click_action_def")

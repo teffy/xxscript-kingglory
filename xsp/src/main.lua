@@ -6,6 +6,34 @@
 
 require("init")
 
+points = sampling_adapter_data.points
+rangecolors = sampling_adapter_data.rangecolors
+deviceW, deviceH = getScreenSize()
+
+-- local test = 1
+local test = nil
+if test then
+    mSleep(2000)
+
+    move(points.move_round_center,{
+        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,245,4000),
+        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,222,3000),
+        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,240,27000),
+    })
+
+    -- move(points.move_round_center,{
+    --     util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius/3,252,50),
+    -- })
+    -- move(points.hero_skill_3,{util:calPointByRadWithTime(points.hero_skill_3,240,700)})
+    -- move(points.move_round_center,{
+    --     util:calPointByRadWithTime(points.move_round_center,240,1000),
+    --     util:calPointByRadWithTime(points.move_round_center,200,1000),
+    --     util:calPointByRadWithTime(points.move_round_center,240,3000),
+    --     util:calPointByRadWithTime(points.move_round_center,245,15000),
+    -- })
+    return
+end
+
 isAndroid = true
 isIOS = false
 smallApkUrl = nil
@@ -59,19 +87,7 @@ if screenD ~= 1 then
     GuideUI:showUI()
 end
 
-points = sampling_adapter_data.points
-rangecolors = sampling_adapter_data.rangecolors
-deviceW, deviceH = getScreenSize()
-
 mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
-
--- local test = 1
-local test = nil
-if test then
-    mSleep(2000)
-
-    return
-end
 
 if selectFight == "0" then
     require("fight.monvfight")

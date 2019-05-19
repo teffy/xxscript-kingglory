@@ -2,6 +2,40 @@
   "width": 3000,
   "height": 1200,
   "points": {
+    "hero_skill_1": {
+      "x": 2148,
+      "y": 1057,
+      "radius":375,
+      "pos": "bottom",
+      "desc": "一技能"
+    },
+    "hero_skill_2": {
+      "x": 2276,
+      "y": 833,
+      "radius":375,
+      "pos": "bottom",
+      "desc": "二技能"
+    },
+    "hero_skill_3": {
+      "x": 2516,
+      "y": 775,
+      "radius":300,
+      "pos": "bottom",
+      "desc": "三技能"
+    },
+    "hero_skill_fight": {
+      "x": 2501,
+      "y": 1025,
+      "pos": "bottom",
+      "desc": "攻击按钮"
+    },
+    "move_round_center": {
+      "x": 418,
+      "y": 951,
+      "radius":200,
+      "pos": "bottom",
+      "desc": "移动轮盘中心点"
+    },
     "main_risk": {
       "x": 2110,
       "y": 873,

@@ -33,6 +33,18 @@ function util:time2Text(timelong)
     return text
 end
 
+function util:calPointByRadiusRadWithTime(point,radius,rad,time)
+    local x,y,radius = point.x,point.y,point.radius
+    local deg = math.rad(rad)
+    x = x+ radius * math.cos(deg)
+    y = y+ radius * math.sin(deg)
+    return {x=x,y=y,time=time}
+end
+
+function util:calPointByRadWithTime(point,rad,time)
+    return util:calPointByRadiusRadWithTime(point,point.radius,rad,time)
+end
+
 -- buyState	整数型	用户付费类型，1 - 付费用户，2 - 试用用户，3 - 免费用户，0 - 非购买非试用
 -- validTime	整数型	用户当前套餐购买时长，单位为秒，试用用户的情况下会返回0
 -- res	整数型	返回错误代码，0 - 正常， 非0 - 出错

@@ -19,6 +19,36 @@ elseif osType == "android" then
 	end
 end
 
+
+function _createHUD()
+	if FOR_TEST_SHOW_POINT then
+		hud_id = createHUD()
+		return hud_id
+	end
+	return nil
+end
+
+function _showHUD(hud_id,x,y)
+	if FOR_TEST_SHOW_POINT and hud_id then
+		showHUD(hud_id, "", 1, "0xff000000", "red_point.png", 0, x - 15, y - 30, 30, 30)
+		mSleep(RED_TIPFLAG_SHOW_TIME)
+	end
+end
+
+function _showHUD2(hud_id,x,y,time)
+	if FOR_TEST_SHOW_POINT and hud_id then
+		showHUD(hud_id, "", 1, "0xff000000", "red_point.png", 0, x - 15, y - 30, 30, 30)
+		mSleep(time)
+	end
+end
+
+function _hideHUD(hud_id)
+	if FOR_TEST_SHOW_POINT and hud_id then
+		mSleep(RED_TIPFLAG_SHOW_TIME)
+		hideHUD(hud_id)
+	end
+end
+
 --@desc 点击事件
 --@param x x坐标
 --@param y y坐标
@@ -41,9 +71,7 @@ define.click {
 		local sleepAfter = (config and config.sleepAfter) or defaultSleepTime
 		local hud_id
 		for i = 1, clickCount do
-			if FOR_TEST_SHOW_POINT then
-				hud_id = createHUD()
-			end
+			hud_id = _createHUD()
 			x = x + math.random(-2, 2)
 			if x < 5 then
 				x = 5
@@ -58,24 +86,12 @@ define.click {
 			if y >= deviceW then
 				y = deviceH - 5
 			end
-			if FOR_TEST_SHOW_POINT then
-				showHUD(hud_id, "", 1, "0xff000000", "red_point.png", 0, x - 15, y - 30, 30, 30)
-				mSleep(RED_TIPFLAG_SHOW_TIME)
-			end
+			_showHUD(hud_id,x,y)
 			touchDown(index, x, y)
-			-- local randomX = math.random(-5,5)
-			-- local randomY = math.random(-5,5)
-			mSleep(sleepTime + math.random(80, 120))
-			-- touchMove(index, x + randomX, y + randomY)
-			-- mSleep(math.random(10,20))
-			-- mSleep(math.random(sleepTime+60,sleepTime+80))
-			-- touchUp(index, x + randomX, y + randomY)
+			mSleep(sleepTime + math.random(40, 80))
 			touchUp(index, x, y)
-			mSleep(sleepAfter + math.random(300, 500))
-			if FOR_TEST_SHOW_POINT then
-				mSleep(RED_TIPFLAG_SHOW_TIME)
-				hideHUD(hud_id)
-			end
+			mSleep(sleepAfter + math.random(200, 400))
+			_hideHUD(hud_id)
 		end
 	end
 }
@@ -224,5 +240,51 @@ define.findThenArray {
 				return true
 			end
 		)
+	end
+}
+
+define.move {
+	"table",
+	"table",
+	function(startP, movePs)
+		print(startP)
+		print(movePs)
+		math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+		local index = math.random(1, 5)
+		local step = 20
+		local function checkFT(from, to)
+			if from > to then
+				do
+					return -1 * step
+				end
+			else
+				return step
+			end
+		end
+		local hud_id = _createHUD()
+		local startX,startY = startP.x,startP.y
+		local moveX,moveY = startX,startY
+		local endX,endY
+		touchDown(index, startX, startY)
+		_showHUD2(hud_id,moveX,moveY,50)
+		for i = 1, #movePs do
+			local itemP = movePs[i]
+			endX,endY = itemP.x,itemP.y
+			while (math.abs(moveX-endX) >= step) or (math.abs(moveY-endY) >= step) do
+				if math.abs(moveX-endX) >= step then moveX = moveX + checkFT(startX,endX) end
+				if math.abs(moveY-endY) >= step then moveY = moveY + checkFT(startY,endY) end
+				touchMove(index, moveX, moveY)
+				mSleep(20)
+				_showHUD2(hud_id,moveX,moveY,50)
+			end
+			touchMove(index, endX, endY)
+			_showHUD2(hud_id,endX, endY,50)
+			mSleep(itemP.time)
+			startX,startY = endX,endY
+			if i== #movePs then
+				touchUp(index, endX, endY)
+			end
+		end
+		_hideHUD(hud_id)
 	end
 }

@@ -9,7 +9,7 @@ require("ui.finishui")
 
 basefight = {}
 
-function basefight:clickAuto()
+function basefight:clickAuto(auto)
     --先判断是否已经在战斗中，然后判断是否开了自动，没开自动需要点击自动
     findThen(
         rangecolors.fighting_is_in_fighting.range,
@@ -22,9 +22,14 @@ function basefight:clickAuto()
                     function(x, y)
                         if x > -1 then
                             sysLog("已经是自动")
+                            if not auto then
+                                click(points.fighting_auto_fight)
+                            end
                         else
                             sysLog("不是自动，点击自动")
-                            click(points.fighting_auto_fight)
+                            if auto then
+                                click(points.fighting_auto_fight)
+                            end
                         end
                         return true
                     end
