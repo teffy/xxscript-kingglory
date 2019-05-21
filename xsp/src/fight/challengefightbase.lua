@@ -291,7 +291,7 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         sysLog("fightSuccess:", fightSuccess)
         if fightSuccess then
             --随机点击一个点跳过
-            randomClick(deviceW, deviceH)
+            randomClick()
             --先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
 
             findThenArray(
@@ -360,7 +360,7 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
                             end
                         )
                     else
-                        randomClick(deviceW, deviceH)
+                        randomClick()
                     end
                     return isAll
                 end

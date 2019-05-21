@@ -126,7 +126,7 @@ define.click {
 	end
 }
 
-function randomClick(deviceW, deviceH)
+function randomClick()
 	math.randomseed(tostring(os.time()))
 	click(math.random(deviceW * 0.33, deviceW * 0.66), math.random(deviceH * 0.33, deviceH * 0.66))
 end

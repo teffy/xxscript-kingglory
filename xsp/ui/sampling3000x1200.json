@@ -299,7 +299,7 @@
       ],
       "color": "0|0|0x02bfff",
       "pos": "bottom",
-      "desc": "战斗中，判断是否弹出自动了，采样右下角按钮"
+      "desc": "战斗中，判断是否弹出跳过了，采样右下角按钮"
     },
     "fight_success_check_yellow_text": {
       "range": [

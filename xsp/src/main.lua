@@ -16,21 +16,41 @@ if test then
     mSleep(2000)
 
     move(points.move_round_center,{
-        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,245,4000),
-        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,222,3000),
-        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,240,27000),
+        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-48,3500),
+        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-140,3000),
+        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-48,18000),
+        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,48,3000),
     })
-
-    -- move(points.move_round_center,{
-    --     util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius/3,252,50),
-    -- })
-    -- move(points.hero_skill_3,{util:calPointByRadWithTime(points.hero_skill_3,240,700)})
-    -- move(points.move_round_center,{
-    --     util:calPointByRadWithTime(points.move_round_center,240,1000),
-    --     util:calPointByRadWithTime(points.move_round_center,200,1000),
-    --     util:calPointByRadWithTime(points.move_round_center,240,3000),
-    --     util:calPointByRadWithTime(points.move_round_center,245,15000),
-    -- })
+    findThen(
+            rangecolors.fighting_is_skip_showing.range,
+            rangecolors.fighting_is_skip_showing.color,
+            function(x, y)
+                if x > -1 then
+                    click(points.fighting_skip, {sleepAfter = 1000})
+                    sysLog("click 跳过")
+                    return true
+                else
+                    randomClick()
+                end
+            end
+        )
+    move(points.move_round_center,{
+            util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,48,700),
+            util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-48,4000),
+        })
+        findThen(
+            rangecolors.fighting_is_skip_showing.range,
+            rangecolors.fighting_is_skip_showing.color,
+            function(x, y)
+                if x > -1 then
+                    click(points.fighting_skip, {sleepAfter = 1000})
+                    sysLog("click 跳过")
+                    return true
+                else
+                    randomClick()
+                end
+            end
+        )
     return
 end
 
@@ -98,4 +118,7 @@ elseif selectFight == "1" then
 elseif selectFight == "2" then
     require("fight.ciqinzhidifight")
     ciqinzhidi:fight()
+elseif selectFight == "3" then
+    require("fight.xuewanggongfight")
+    xuewanggong:fight()
 end

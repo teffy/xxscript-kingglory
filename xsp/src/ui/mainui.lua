@@ -64,12 +64,14 @@ function MainUI:showUI()
     end
     basePage:addView(baseInfo)
     selectFightSelect = "0"
+    selectFightList = "魔女,通天塔,刺秦之地"
     if IS_VIP then
         selectFightSelect = "1"
+        selectFightList = selectFightList..",血王宫"
     end
     local selectFight = RadioGroup:create({
         id = "selectFight",
-        list = "魔女,通天塔,刺秦之地",
+        list = selectFightList,
         select = selectFightSelect,
         size = 40,
         orientation = Orientation.HORIZONTAL
