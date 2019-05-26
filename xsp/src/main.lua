@@ -15,42 +15,6 @@ local test = nil
 if test then
     mSleep(2000)
 
-    move(points.move_round_center,{
-        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-48,3500),
-        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-140,3000),
-        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-48,18000),
-        util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,48,3000),
-    })
-    findThen(
-            rangecolors.fighting_is_skip_showing.range,
-            rangecolors.fighting_is_skip_showing.color,
-            function(x, y)
-                if x > -1 then
-                    click(points.fighting_skip, {sleepAfter = 1000})
-                    sysLog("click 跳过")
-                    return true
-                else
-                    randomClick()
-                end
-            end
-        )
-    move(points.move_round_center,{
-            util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,48,700),
-            util:calPointByRadiusRadWithTime(points.move_round_center,points.move_round_center.radius,-48,4000),
-        })
-        findThen(
-            rangecolors.fighting_is_skip_showing.range,
-            rangecolors.fighting_is_skip_showing.color,
-            function(x, y)
-                if x > -1 then
-                    click(points.fighting_skip, {sleepAfter = 1000})
-                    sysLog("click 跳过")
-                    return true
-                else
-                    randomClick()
-                end
-            end
-        )
     return
 end
 
@@ -78,14 +42,18 @@ end
 
 require("ui.mainui")
 local ret, result = MainUI:showUI()
+local fightTypeStr = result.fightType  -- 冒险，六国，武道
+riskFightLevel = result.riskFightLevel -- 普通，精英，大师
+local selectFight = result.selectFight -- 冒险挑战，选择关卡
 local autoStopStr = result.autoStop
 local autoCloseGameStr = result.autoCloseGame
 local randomSleepStr = result.randomSleep
+
 autoStop = (autoStopStr == "0")
 autoCloseGame = (autoCloseGameStr == "0")
 randomSleep = (randomSleepStr == "0")
+
 userClick = ret
-local selectFight = result.selectFight
 if ret == 1 then
     sysLog("确定")
 else
@@ -108,17 +76,24 @@ if screenD ~= 1 then
 end
 
 mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
-
-if selectFight == "0" then
-    require("fight.monvfight")
-    monv:fight()
-elseif selectFight == "1" then
-    require("fight.tongtiantafight")
-    tongtianta:fight()
-elseif selectFight == "2" then
-    require("fight.ciqinzhidifight")
-    ciqinzhidi:fight()
-elseif selectFight == "3" then
-    require("fight.xuewanggongfight")
-    xuewanggong:fight()
+if fightTypeStr == "0" then
+    if selectFight == "0" then
+        require("fight.monvfight")
+        monv:fight()
+    elseif selectFight == "1" then
+        require("fight.tongtiantafight")
+        tongtianta:fight()
+    elseif selectFight == "2" then
+        require("fight.ciqinzhidifight")
+        ciqinzhidi:fight()
+    elseif selectFight == "3" then
+        require("fight.xuewanggongfight")
+        xuewanggong:fight()
+    end
+elseif fightTypeStr == "1" then
+    require("fight.sixnationfight")
+    sixnationfight:fight()
+elseif fightTypeStr == "2" then
+    require("fight.rankfight")
+    rankfight:fight()
 end

@@ -11,14 +11,19 @@ require("config")
 MainUI = {}
 
 function MainUI:showUI()
+    local configFile = "save.dat"
+    if IS_VIP then
+        configFile = "vipsave.dat"
+    end
     local rootview =
         RootView:create(
         {
             width = 1800,
-            height = 1600,
+            height = 1400,
+            config = configFile,
             okname = "开始脚本",
             cancelname = "休息一下",
-            countdown = 20
+            countdown = 30
         }
     )
     local basePage = Page:create({text = "基础设置"})
@@ -29,10 +34,14 @@ function MainUI:showUI()
             height = 120
         }
     )
+    local srciptName = "❤️天非❤️⚔️️金手指⚔️️"
+    if IS_VIP then
+        srciptName = "❤️天非❤️⚔️️金手指⚔️️"
+    end
     baseInfo:addView(
         Label:create(
             {
-                text = "❤️天非❤️⚔️️金手指⚔️️",
+                text = srciptName,
                 width = 700,
                 size = textSize,
                 color = textColor
@@ -62,30 +71,6 @@ function MainUI:showUI()
             )
         )
     end
-    basePage:addView(baseInfo)
-    selectFightSelect = "0"
-    selectFightList = "魔女,通天塔,刺秦之地"
-    if IS_VIP then
-        selectFightSelect = "1"
-        selectFightList = selectFightList..",血王宫"
-    end
-    local selectFight = RadioGroup:create({
-        id = "selectFight",
-        list = selectFightList,
-        select = selectFightSelect,
-        size = 40,
-        orientation = Orientation.HORIZONTAL
-    })
-    basePage:addView(selectFight)
-    basePage:addView(
-        Label:create(
-            {
-                text = " 魔女、通天塔、刺秦之地大师可选，金币上限自动停止",
-                size = textSize,
-                color = textColor
-            }
-        )
-    )
     if isAndroid and smallApkUrl then
         local smallElf =
             Label:create(
@@ -101,39 +86,22 @@ function MainUI:showUI()
         )
         basePage:addView(smallElf)
     end
-    basePage:addView(
-        CheckBoxGroup:create(
-            {
-                id = "autoStop",
-                width = 400,
-                list = "到金币上限自动停止",
-                select = "0"
-            }
-        )
-    )
-    basePage:addView(
-        CheckBoxGroup:create(
-            {
-                id = "randomSleep",
-                width = 400,
-                list = "随机休眠（部分用户有被封过建议开启）"
-            }
-        )
-    )
-    local autoCloseGameList = "到金币上限自动关闭游戏"
-    if isIOS then 
-        autoCloseGameList = autoCloseGameList.."并锁屏"
+    basePage:addView(baseInfo)
+
+    local fightTypeList = "冒险挑战"
+    if IS_VIP then
+        fightTypeList = fightTypeList..",六国远征,武道大会"
     end
-    basePage:addView(
-        CheckBoxGroup:create(
-            {
-                id = "autoCloseGame",
-                width = 600,
-                list = autoCloseGameList
-                -- select = "0"
-            }
-        )
-    )
+    local fightTypeSelect = 0
+    local fightType = RadioGroup:create({
+        id = "fightType",
+        list = fightTypeList,
+        select = fightTypeSelect,
+        size = 40,
+        orientation = Orientation.HORIZONTAL
+    })
+    basePage:addView(fightType)
+
     local guideInfo =
         LinearLayout:create(
         {
@@ -161,7 +129,73 @@ function MainUI:showUI()
         )
     )
     basePage:addView(guideInfo)
+
     rootview:addView(basePage)
+
+    -- 冒险设置
+    local riskSetting = Page:create({text = "冒险挑战"})
+
+    local riskFightLevelSelect = "2"
+    local riskFightLevelList = "普通,精英,大师"
+    local riskFightLevel = RadioGroup:create({
+        id = "riskFightLevel",
+        list = riskFightLevelList,
+        select = riskFightLevelSelect,
+        size = 40,
+        orientation = Orientation.HORIZONTAL
+    })
+    riskSetting:addView(riskFightLevel)
+    
+    local selectFightSelect = "0"
+    local selectFightList = "魔女,通天塔,刺秦之地,血王宫"
+    if IS_VIP then
+        selectFightSelect = "1"
+    end
+    local selectFight = RadioGroup:create({
+        id = "selectFight",
+        list = selectFightList,
+        select = selectFightSelect,
+        size = 40,
+        orientation = Orientation.HORIZONTAL
+    })
+    riskSetting:addView(selectFight)
+    riskSetting:addView(
+        CheckBoxGroup:create(
+            {
+                id = "autoStop",
+                width = 400,
+                list = "到金币上限自动停止(不停止可以继续刷经验)",
+                select = "0"
+            }
+        )
+    )
+    riskSetting:addView(
+        CheckBoxGroup:create(
+            {
+                id = "randomSleep",
+                width = 400,
+                list = "随机休眠（部分用户有被封过建议开启）"
+            }
+        )
+    )
+    local autoCloseGameList = "到金币上限自动关闭游戏"
+    if isIOS then 
+        autoCloseGameList = autoCloseGameList.."并锁屏"
+    end
+    riskSetting:addView(
+        CheckBoxGroup:create(
+            {
+                id = "autoCloseGame",
+                width = 600,
+                list = autoCloseGameList
+                -- select = "0"
+            }
+        )
+    )
+    rootview:addView(riskSetting)
+
+    -- local sixNationFight = Page:create({text = "六国远征"})
+    -- rootview:addView(sixNationFight)
 
     local contactAuthor = Page:create({text = "联系作者"})
     local releaseHistory =
