@@ -62,7 +62,7 @@ define.click {
 	"number",
 	"table",
 	function(x, y, config)
-		sysLog("click,x:" .. x .. ",y:" .. y, ",config:", config)
+		-- sysLog("click,x:" .. x .. ",y:" .. y, ",config:", config)
 		local deviceW, deviceH = getScreenSize()
 		math.randomseed(tostring(os.time()):reverse():sub(1, 6))
 		local index = math.random(1, 5)
@@ -157,7 +157,7 @@ define.findThen {
 	"number",
 	"function",
 	function(posRange, posColor, similarity, thenFn, timeOut, timeOutFn)
-		sysLog("posRange:", posRange, ",posColor:", posColor)
+		-- sysLog("posRange:", posRange, ",posColor:", posColor)
 		local mStart = mTime()
 		local mEnd = 0
 		while true do

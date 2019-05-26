@@ -10,11 +10,11 @@ points = sampling_adapter_data.points
 rangecolors = sampling_adapter_data.rangecolors
 deviceW, deviceH = getScreenSize()
 
+
 -- local test = 1
 local test = nil
 if test then
     mSleep(2000)
-
     return
 end
 

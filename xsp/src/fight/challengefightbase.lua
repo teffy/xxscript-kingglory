@@ -204,7 +204,7 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         if loadingTime == 0 then
             loadingTimeStart = mTime()
         else
-            mSleep(loadingTime * 4 / 5)
+            mSleep(loadingTime * 2 / 3)
         end
 
         fightProcessFunc()
