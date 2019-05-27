@@ -78,22 +78,22 @@ end
 mSleep(1000) -- 手机虚拟键盘消失会过程会影响点击
 if fightTypeStr == "0" then
     if selectFight == "0" then
-        require("fight.monvfight")
+        require("fight.MonvFight")
         monv:fight()
     elseif selectFight == "1" then
-        require("fight.tongtiantafight")
+        require("fight.TongTianTaFight")
         tongtianta:fight()
     elseif selectFight == "2" then
-        require("fight.ciqinzhidifight")
+        require("fight.CiqinZhidiFight")
         ciqinzhidi:fight()
     elseif selectFight == "3" then
-        require("fight.xuewanggongfight")
+        require("fight.XueWangGongFight")
         xuewanggong:fight()
     end
 elseif fightTypeStr == "1" then
-    require("fight.sixnationfight")
-    sixnationfight:fight()
+    require("fight.SixNationFight")
+    sixnation:fight()
 elseif fightTypeStr == "2" then
-    require("fight.rankfight")
+    require("fight.RankFight")
     rankfight:fight()
 end

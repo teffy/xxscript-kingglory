@@ -8,7 +8,7 @@
 
 require("tflibs.util")
 require("ui.finishui")
-require("fight.challengefightbase")
+require("fight.base.RiskFightBase")
 
 xuewanggong = {}
 function xuewanggong:fight()

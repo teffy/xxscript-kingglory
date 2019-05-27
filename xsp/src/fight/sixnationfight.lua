@@ -4,8 +4,8 @@
 --@github https://github.com/teffy/xxscript-kingglory
 ------------------------------------------------------------
 
-sixnationfight = {}
+sixnation = {}
 
-function sixnationfight:fight()
+function sixnation:fight()
     print('sixnationfight')
 end
