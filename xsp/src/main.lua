@@ -10,11 +10,13 @@ points = sampling_adapter_data.points
 rangecolors = sampling_adapter_data.rangecolors
 deviceW, deviceH = getScreenSize()
 
+-- setNumberConfig("xuewanggong_loadingTime", 0)
 
 -- local test = 1
 local test = nil
 if test then
     mSleep(2000)
+
     return
 end
 
@@ -42,7 +44,7 @@ end
 
 require("ui.mainui")
 local ret, result = MainUI:showUI()
-local fightTypeStr = result.fightType  -- 冒险，六国，武道
+local fightTypeStr = result.fightType -- 冒险，六国，武道
 riskFightLevel = result.riskFightLevel -- 普通，精英，大师
 local selectFight = result.selectFight -- 冒险挑战，选择关卡
 local autoStopStr = result.autoStop
@@ -68,6 +70,7 @@ CheckDownload:checkDownload()
 
 local isRightScreenDirection = true
 local screenD = getScreenDirection()
+local product_id = getProduct()
 
 sysLog("screenDirection:" .. screenD .. ",osType:" .. osType)
 if screenD ~= 1 then

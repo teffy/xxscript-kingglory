@@ -109,19 +109,23 @@ function FinishUI:showUIOnTaskFinish(fightResult, goldLimitFinish)
             }
         )
     )
-    local smallElf =
-        Label:create(
-        {
-            text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
-            size = textSize,
-            color = textColor
-        }
-    )
-    smallElf:addExtra(
-        "http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk",
-        "下载小精灵版本，脚本更新更及时🚀，点我下载"
-    )
-    rootview:addView(smallElf)
+    local product_id = getProduct()
+    local notSmallApkRuntime = product_id ~= 6 and product_id ~= 5
+    if isAndroid and smallApkUrl and notSmallApkRuntime then
+        local smallElf =
+            Label:create(
+            {
+                text = "下载小精灵版本，脚本更新更及时🚀，点我下载",
+                size = textSize,
+                color = textColor
+            }
+        )
+        smallElf:addExtra(
+            "http://astdown.xxzhushou.cn/xxzhushou_spirte/spirit_script_19475_0_1.3.51_62060.apk",
+            "下载小精灵版本，脚本更新更及时🚀，点我下载"
+        )
+        rootview:addView(smallElf)
+    end
     -- buyState, validTime, res = getUserCredit()
     -- if buyState == 1 then
 

@@ -34,9 +34,9 @@ function MainUI:showUI()
             height = 120
         }
     )
-    local srciptName = "❤️天非❤️⚔️️金手指⚔️️"
+    local srciptName = "天非金手指"
     if IS_VIP then
-        srciptName = "❤️天非❤️⚔️️金手指⚔️️"
+        srciptName = "天非金手指"
     end
     baseInfo:addView(
         Label:create(
@@ -52,7 +52,7 @@ function MainUI:showUI()
         basePage:addView(
             Label:create(
                 {
-                    text = " 测试版本，新进群的不要下载使用，如果是帮群主测试的，请录屏然后把运行结果反馈给群主",
+                    text = " 测试版本，新进群的不要下载使用，有问题的，请录屏然后把运行结果反馈给群主",
                     size = textSize,
                     color = textColor
                 }
@@ -71,7 +71,10 @@ function MainUI:showUI()
             )
         )
     end
-    if isAndroid and smallApkUrl then
+
+    local product_id = getProduct()
+    local notSmallApkRuntime = product_id ~= 6 and product_id ~= 5
+    if isAndroid and smallApkUrl and notSmallApkRuntime then
         local smallElf =
             Label:create(
             {
@@ -231,7 +234,7 @@ function MainUI:showUI()
     contactAuthor:addView(
         Label:create(
             {
-                text = "欢迎进群反馈问题和意见，进群有福利，可以帮忙测试的有额外奖励哦",
+                text = "欢迎进群反馈问题和意见",
                 size = textSize,
                 color = textColor
             }

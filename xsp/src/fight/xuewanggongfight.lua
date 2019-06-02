@@ -24,13 +24,12 @@ function xuewanggong:fight()
     end
 
     local function fightProcessFunc()
-        -- 上来点击一次
         findThen(
             rangecolors.fighting_is_skip_showing.range,
             rangecolors.fighting_is_skip_showing.color,
             function(x, y)
                 if x > -1 then
-                    click(points.fighting_skip, {sleepAfter = 100})
+                    click(points.fighting_skip, {sleepAfter = 400})
                     sysLog("click 跳过")
                     return true
                 else
@@ -40,6 +39,7 @@ function xuewanggong:fight()
             end
         )
         basefight:saveLoadingTime(loadingtime_key)
+        click(points.hero_skill_fight)
         if IS_VIP then
             basefight:clickAuto(false)
             move(
@@ -49,7 +49,7 @@ function xuewanggong:fight()
                         points.move_round_center,
                         points.move_round_center.radius,
                         -54,
-                        4500
+                        3000
                     ),
                     util:calPointByRadiusRadWithTime(
                         points.move_round_center,
@@ -60,7 +60,7 @@ function xuewanggong:fight()
                     util:calPointByRadiusRadWithTime(
                         points.move_round_center,
                         points.move_round_center.radius,
-                        -54,
+                        -56,
                         20000
                     )
                 }
