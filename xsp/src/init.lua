@@ -9,12 +9,15 @@ require('tflibs.util')
 require('tflibs.sys_fun_redef')
 require("tflibs.fun_overload_def")
 require("tflibs.click_action_def")
+require("tflibs.sampling_adapter")
 
 textSize = 55
 textColor = "76,137,228"
-local calculate_sampling_data = require("tflibs.sampling_adapter")
 
-sampling_adapter_data = calculate_sampling_data()
+fightCountArray = {1,5,10,50,100,200,260,300,400,500,600}
+fightCountStr = "1,5,10,50,100,200,260,300,400,500,600"
+
+sampling_adapter_data = Adapter:calculate_sampling_data()
 
 -- 屏幕方向，0 - 竖屏， 1 - Home键在右边， 2 - Home键在左边
 init(APP_PACKAGE_NAME, 1)

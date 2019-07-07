@@ -162,16 +162,18 @@ function MainUI:showUI()
         orientation = Orientation.HORIZONTAL
     })
     riskSetting:addView(selectFight)
-    riskSetting:addView(
-        CheckBoxGroup:create(
-            {
-                id = "autoStop",
-                width = 400,
-                list = "到金币上限自动停止(不停止可以继续刷经验)",
-                select = "0"
-            }
-        )
+    riskSetting:addView(Label:create({
+            text = "挑战次数",
+            size = textSize,
+            color = textColor
+        })
     )
+    riskSetting:addView(ComboBox:create({
+        id = "fightCount",
+        list = fightCountStr,
+        select = "6",
+        width = 200
+    }))
     riskSetting:addView(
         CheckBoxGroup:create(
             {
@@ -181,7 +183,7 @@ function MainUI:showUI()
             }
         )
     )
-    local autoCloseGameList = "到金币上限自动关闭游戏"
+    local autoCloseGameList = "挑战结束后自动关闭游戏"
     if isIOS then 
         autoCloseGameList = autoCloseGameList.."并锁屏"
     end

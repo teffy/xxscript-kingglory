@@ -63,25 +63,6 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
 
     local fightCount, fightAllTime, averageTime, goldCount = 0, 0, 0, 0
     local fightStartTime, fightEndTime = 0, 0
-    local goldLimit = false
-    --主页面->冒险之旅
-    click(points.main_risk, {sleepAfter = defaultSleepTime})
-    --冒险选择-中间
-    click(points.risk_select_mode1_2, {sleepAfter = defaultSleepTime})
-    --冒险之旅-第三个
-    click(points.risk_select_mode2_3, {sleepAfter = defaultSleepTime})
-
-    selectLevelFunc(defaultSleepTime)
-
-    --顺序点击普通，精英，大师，这样可以选到最大级别2
-    --TODO  是否需要这样？？？是否可以检测是否有大师级别
-    click(points.fightpre_level_mode_1, {sleepAfter = 200})
-    click(points.fightpre_level_mode_2, {sleepAfter = 200})
-    click(points.fightpre_level_mode_3, {sleepAfter = 200})
-
-    --下一步
-    click(points.fightpre_select_level_next, {sleepAfter = defaultSleepTime})
-
     loadingTime = getNumberConfig(loadingtime_key, 0)
 
     local hud_id = createHUD()
@@ -97,11 +78,44 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
 
     math.randomseed(tostring(os.time()):reverse():sub(1, 9))
     local randomSleepStep = math.random(4, 8)
-    print("randomSleep:", randomSleep, ",randomSleepStep:", randomSleepStep)
+    print("randomSleep:", randomSleep, ",randomSleepStep:", randomSleepStep,"totalFightCount:",totalFightCount)
+    local selectLeveled = false
+    local i = 0
     --开始循环闯关
-    while true do
+    while i <= totalFightCount do
         math.randomseed(tostring(os.time()):reverse():sub(1, 9))
         fightStartTime = mTime()
+
+        findThen(
+            rangecolors.main_risk_text.range,
+            rangecolors.main_risk_text.color,
+            function(x, y)
+                if x > -1 then
+                     --主页面->冒险之旅
+                    click(points.main_risk, {sleepAfter = defaultSleepTime})
+                    return true
+                end
+            end
+        )
+       
+        --冒险选择-中间
+        click(points.risk_select_mode1_2, {sleepAfter = defaultSleepTime})
+        --冒险之旅-第三个
+        click(points.risk_select_mode2_3, {sleepAfter = defaultSleepTime})
+
+        if not selectLeveled then
+            selectLevelFunc(defaultSleepTime)
+            selectLeveled = true
+        end
+
+        --顺序点击普通，精英，大师，这样可以选到最大级别2
+        --TODO  是否需要这样？？？是否可以检测是否有大师级别
+        -- click(points.fightpre_level_mode_1, {sleepAfter = 200})
+        -- click(points.fightpre_level_mode_2, {sleepAfter = 200})
+        -- click(points.fightpre_level_mode_3, {sleepAfter = 200})
+
+        --下一步
+        click(points.fightpre_select_level_next, {sleepAfter = defaultSleepTime})
 
         -- 先判断是否在战斗准备页面，判断闯关按钮和更改阵容按钮，以防页面切换卡顿
         findThenArray(
@@ -293,78 +307,6 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
             --随机点击一个点跳过
             randomClick()
             --先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
-
-            findThenArray(
-                {
-                    {
-                        range = rangecolors.fight_success_gold_back.range,
-                        color = rangecolors.fight_success_gold_back.color,
-                        degree = 90,
-                        hdir = 0,
-                        vdir = 0,
-                        priority = 0
-                    },
-                    {
-                        range = rangecolors.fight_success_gold_fight_again.range,
-                        color = rangecolors.fight_success_gold_fight_again.color,
-                        degree = 90,
-                        hdir = 0,
-                        vdir = 0,
-                        priority = 0
-                    }
-                },
-                function(results)
-                    local isAll = true
-                    for i = 1, #results do
-                        local item = results[i]
-                        if #item <= 0 then
-                            isAll = false
-                        end
-                    end
-
-                    if isAll then
-                        findThen(
-                            rangecolors.fight_success_gold_limit.range,
-                            rangecolors.fight_success_gold_limit.color,
-                            function(x, y)
-                                if x > -1 then
-                                    goldLimit = true
-                                    sysLog("金币上限")
-                                    if autoStop then
-                                        --金币上限，退出脚本
-                                        fightEndTime = mTime()
-                                        fightAllTime = fightAllTime + (fightEndTime - fightStartTime)
-                                        fightCount = fightCount + 1
-                                        averageTime = fightAllTime / fightCount
-                                        FinishUI:showUIOnTaskFinish(
-                                            {
-                                                fightAllTime = fightAllTime,
-                                                goldCount = goldCount,
-                                                averageTime = averageTime
-                                            },
-                                            goldLimit
-                                        )
-                                        hideHUD(hud_id)
-                                        return true
-                                    else
-                                        sysLog("金币上限，继续刷经验")
-                                        click(points.fight_success_fight_again)
-                                        return true
-                                    end
-                                else
-                                    --金币还没上限，再次挑战  challengeAgain
-                                    sysLog("金币不到上限，再次挑战")
-                                    click(points.fight_success_fight_again)
-                                    return true
-                                end
-                            end
-                        )
-                    else
-                        randomClick()
-                    end
-                    return isAll
-                end
-            )
         else
             click(points.fight_failed_back)
             --失败，退回到选择关卡页面，先判断上下按钮在不在，点击下一步
@@ -411,9 +353,7 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         fightCount = fightCount + 1
         averageTime = fightAllTime / fightCount
 
-        if not goldLimit then
-            goldCount = fightCount * goldPerFight
-        end
+        goldCount = fightCount * goldPerFight
         sysLog(
             "loadingTime:",
             loadingTime,
@@ -432,5 +372,6 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         collectgarbage("collect")
         local mem2 = collectgarbage("count")
         print("\nafter collect memory is ", mem2, "kb")
+        i = i + 1
     end
 end

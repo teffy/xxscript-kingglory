@@ -1,4 +1,4 @@
-VERSION='0.0.29'
+VERSION='0.0.31'
 -- debug?打印log
 T = true
 F = false
@@ -36,4 +36,3 @@ end
 -- 7、最简单人机
 -- 8、日常喊话
 -- 9、一键换装
-

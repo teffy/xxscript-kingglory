@@ -16,7 +16,6 @@ deviceW, deviceH = getScreenSize()
 local test = nil
 if test then
     mSleep(2000)
-
     return
 end
 
@@ -44,26 +43,33 @@ end
 
 require("ui.mainui")
 local ret, result = MainUI:showUI()
-local fightTypeStr = result.fightType -- 冒险，六国，武道
-riskFightLevel = result.riskFightLevel -- 普通，精英，大师
-local selectFight = result.selectFight -- 冒险挑战，选择关卡
-local autoStopStr = result.autoStop
-local autoCloseGameStr = result.autoCloseGame
-local randomSleepStr = result.randomSleep
-
-autoStop = (autoStopStr == "0")
-autoCloseGame = (autoCloseGameStr == "0")
-randomSleep = (randomSleepStr == "0")
 
 userClick = ret
-if ret == 1 then
-    sysLog("确定")
-else
+sysLog("确定")
+
+if not ret == 1 then
     sysLog("取消")
     require("ui.finishui")
     FinishUI:showUIOnExit()
     return
 end
+
+print("result ",result)
+
+local fightTypeStr = result.fightType -- 冒险，六国，武道
+riskFightLevel = result.riskFightLevel -- 普通，精英，大师
+local selectFight = result.selectFight -- 冒险挑战，选择关卡
+local autoCloseGameStr = result.autoCloseGame
+local randomSleepStr = result.randomSleep
+local fightCountStr = result.fightCount
+
+print("fightCountStr "..fightCountStr)
+print("tonumber(fightCountStr) "..tonumber(fightCountStr))
+totalFightCount = fightCountArray[tonumber(fightCountStr)+1]
+print("totalFightCount "..totalFightCount)
+
+autoCloseGame = (autoCloseGameStr == "0")
+randomSleep = (randomSleepStr == "0")
 
 require("ui.checkdownload")
 CheckDownload:checkDownload()

@@ -6,7 +6,7 @@
 JSON = require("tflibs.JSON")
 require("tflibs.sys_fun_redef")
 
-Adapter = {}
+Adapter={}
 -- 游戏是横屏模式
 -- 黑边模式，宽高比 > 2，即 W > 2*H 的情况下会出现黑边，但游戏有效宽区域为 H*2，居中，算法需要先去掉两边黑边
 -- 非黑边模式，宽高比 >= 1 ，< 2，不需要处理黑边
@@ -65,7 +65,7 @@ Adapter = {}
 --X/tempW = samplingX/samplingW
 --(tempH/2-Y)/X = (samplingH/2-samplingY)/samplingX
 --
-function calculate_sampling_item(
+function Adapter:calculate_sampling_item(
 	item,
 	is_black_mode,
 	black_gap,
