@@ -200,6 +200,28 @@
     }
   },
   "rangecolors": {
+    "risk_select_mode1_2": {
+      "range": [
+        1700,
+        923,
+        1750,
+        983
+      ],
+      "color": "0|0|0x5ecce2",
+      "pos": "mid",
+      "desc": "冒险之旅-第三个"
+    },
+    "main_risk_text": {
+      "range": [
+        2060,
+        840,
+        2160,
+        900
+      ],
+      "color": "0|0|0xedf5fb",
+      "pos": "bottom",
+      "desc": "主页面-冒险，在底部"
+    },
     "fightpre_select_level_up": {
       "range": [
         956,

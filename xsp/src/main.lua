@@ -16,6 +16,17 @@ deviceW, deviceH = getScreenSize()
 local test = nil
 if test then
     mSleep(2000)
+    findThen(
+            rangecolors.main_risk_text.range,
+            rangecolors.main_risk_text.color,
+            function(x, y)
+                if x > -1 then
+                     --主页面->冒险之旅
+                    click(points.main_risk, {sleepAfter = defaultSleepTime})
+                    return true
+                end
+            end
+        )
     return
 end
 

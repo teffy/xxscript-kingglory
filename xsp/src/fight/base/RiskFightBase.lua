@@ -78,11 +78,10 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
 
     math.randomseed(tostring(os.time()):reverse():sub(1, 9))
     local randomSleepStep = math.random(4, 8)
-    print("randomSleep:", randomSleep, ",randomSleepStep:", randomSleepStep,"totalFightCount:",totalFightCount)
+    print("randomSleep:", randomSleep, ",randomSleepStep:", randomSleepStep,",totalFightCount:",totalFightCount)
     local selectLeveled = false
-    local i = 0
     --开始循环闯关
-    while i <= totalFightCount do
+    while fightCount <= totalFightCount do
         math.randomseed(tostring(os.time()):reverse():sub(1, 9))
         fightStartTime = mTime()
 
@@ -90,16 +89,30 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
             rangecolors.main_risk_text.range,
             rangecolors.main_risk_text.color,
             function(x, y)
+                click(points.main_risk, {sleepAfter = defaultSleepTime})
                 if x > -1 then
                      --主页面->冒险之旅
-                    click(points.main_risk, {sleepAfter = defaultSleepTime})
                     return true
+                end
+            end
+        )
+        findThen(
+            rangecolors.risk_select_mode1_2.range,
+            rangecolors.risk_select_mode1_2.color,
+            function(x, y)
+                if x > -1 then
+                     --冒险选择-中间
+                    click(points.risk_select_mode1_2, {sleepAfter = defaultSleepTime})
+                    return true
+                else
+                    --主页面->冒险之旅
+                    click(points.main_risk, {sleepAfter = defaultSleepTime})
                 end
             end
         )
        
         --冒险选择-中间
-        click(points.risk_select_mode1_2, {sleepAfter = defaultSleepTime})
+        -- click(points.risk_select_mode1_2, {sleepAfter = defaultSleepTime})
         --冒险之旅-第三个
         click(points.risk_select_mode2_3, {sleepAfter = defaultSleepTime})
 
@@ -237,14 +250,6 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
                     hdir = 0,
                     vdir = 0,
                     priority = 0
-                },
-                {
-                    range = rangecolors.fight_success_check_white_text.range,
-                    color = rangecolors.fight_success_check_white_text.color,
-                    degree = 90,
-                    hdir = 0,
-                    vdir = 0,
-                    priority = 0
                 }
             },
             function(results)
@@ -306,7 +311,6 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         if fightSuccess then
             --随机点击一个点跳过
             randomClick()
-            --先判断是否已经在奖励页面，避免在页面切换中判断是否有白字（金币上限）
         else
             click(points.fight_failed_back)
             --失败，退回到选择关卡页面，先判断上下按钮在不在，点击下一步
@@ -372,6 +376,5 @@ function basefight:fight(goldPerFight, loadingtime_key, selectLevelFunc, fightPr
         collectgarbage("collect")
         local mem2 = collectgarbage("count")
         print("\nafter collect memory is ", mem2, "kb")
-        i = i + 1
     end
 end

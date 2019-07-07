@@ -37,7 +37,7 @@ function monv:fight()
                     click(points.fighting_skip, {sleepAfter = 1000})
                     sysLog("click 跳过")
                     clickNextCount = clickNextCount + 1
-                    if clickNextCount == 2 then
+                    if clickNextCount == 3 then
                         clickNextCount = 0
                         return true
                     end
